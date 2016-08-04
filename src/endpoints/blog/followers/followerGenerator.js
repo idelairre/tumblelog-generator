@@ -22,7 +22,7 @@ export const generateFollowers = num => {
   return tumblelogs;
 }
 
-export const generateFollowersResponse = query => {
+export const fetch = query => {
   const response = {
     total_followers: Faker.random.number(),
     users: generateFollowers(query.limit)

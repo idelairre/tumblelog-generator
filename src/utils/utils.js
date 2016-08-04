@@ -2,8 +2,8 @@ import { isEmpty, replace, sample, without } from 'lodash';
 import Faker from 'faker';
 import pos from 'pos';
 import generateTumblelogName from '../generators/name/nameGenerator';
-import posCorpus from '../../corpus/pos.json';
-import following from '../../dictionary/following.json';
+import posCorpus from '../corpus/pos.json';
+import following from '../dictionary/following.json';
 
 let names = [];
 
@@ -75,7 +75,7 @@ export const parseTemplate = template => {
       }
       sentence = sentence.replace(occurrences[i], result);
     }
-    return replaceRealInfo(sentence).replace(/\"/g, '');
+    return replaceRealInfo(sentence).replace(/\"/g, '').replace(/\s+(\W)/g, '$1');;
   }
 }
 

@@ -1,13 +1,13 @@
 import Faker from 'faker';
 import { first, sample } from 'lodash';
-import { generateTumblelogName } from '../../generators/name/nameGenerator';
+import generateTumblelogName from '../../generators/name/nameGenerator';
 import { generateTumblelog } from '../tumblelog/tumblelogGenerator';
 
 const contentRating = () => {
   return sample(['adult', 'nsfw']);
 }
 
-const type = () => {
+const randomType = () => {
   return sample(['photo', 'photoset', 'quote', 'note', 'video', 'answer', 'link', 'chat']);
 }
 
@@ -42,7 +42,7 @@ export const generateClientPost = (tumblelog = generateTumblelogName()) => {
     'is_reblog': Faker.random.boolean(),
     'is_recommended': false,
     'liked': Faker.random.boolean(),
-    'log-index': Faker.random.number({ min: 0: max: 2 }),
+    'log-index': Faker.random.number({ min: 0, max: 2 }),
     'note_count': Faker.random.number(),
     'placement_id': null,
     'post-id': id.toString(),
@@ -53,16 +53,16 @@ export const generateClientPost = (tumblelog = generateTumblelogName()) => {
     'serve-id': Faker.random.alphaNumeric(),
     'share_popover_data': {},
     'sponsered': '',
-    'tags': Faker.random.words(),
+    'tags': Faker.random.words().split(' '),
     'tumblelog': tumblelog,
     'tumblelog-content-rating': contentRating(),
     'tumblelog-key': Faker.random.alphaNumeric(),
     'tumblelog-name': tumblelog,
-    'type': type()
+    'type': randomType()
   };
 
   if (Faker.random.boolean()) {
-    post['tumblelog-parent-data'] = generateTumblelog(),
+    post['tumblelog-parent-data'] = generateTumblelog();
   } else {
     post['tumblelog-parent-data'] = false;
   }
@@ -80,17 +80,17 @@ export const generateClientPost = (tumblelog = generateTumblelogName()) => {
   return post;
 }
 
-export const generateApiPost = (tumblelog = generateTumblelogName()) => {
+export const generateApiPost = (tumblelog = generateTumblelogName(), type = false) => {
   const post = {
     blog_name: tumblelog,
-    id: Faker.number.random(),
-    post_url: ,
-    type: type(),
+    id: Faker.random.number(),
+    post_url: Faker.internet.url(),
+    type: type || randomType(),
     date: Faker.date.past(),
     tumestamp: Date.parse(Faker.date.past()),
     format: format(),
     reblog_key: Faker.random.uuid(),
-    tags: Faker.random.words(),
+    tags: Faker.random.words().split(' '),
     liked: Faker.random.boolean(),
     state: state()
   };
@@ -103,9 +103,11 @@ export const generateApiPost = (tumblelog = generateTumblelogName()) => {
     post.body = Faker.lorem.paragraph();
   } else if (post.type === 'quote') {
     post.text = Faker.lorem.sentence();
-    post.source = `<a href="${Faker.internet.url()}" target="_blank">${generateTumblelogName()}</a>`;
+    let source = generateTumblelogName();
+    post.source = `<a href="${Faker.internet.url()}" target="_blank">${source}</a>`;
     if (Faker.random.boolean()) {
-      post.source += `(via <a href="${Faker.internet.url()}" target="_blank">${generateTumblelogName()}</a>`;
+      let source2 = generateTumblelogName();
+      post.source += `(via <a href="${Faker.internet.url()}" target="_blank">${source2}</a>`;
     }
   } else if (post.type === 'link') {
     post.photos = []; // TODO: implement fake photos

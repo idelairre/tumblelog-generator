@@ -1,3 +1,3 @@
-import * as TumblelogGenerator from '../src/blog';
+import Blog from '../src/endpoints/blog/blog';
 
-// console.log(JSON.stringify(TumblelogGenerator.generateUsers(30), null, 3));
+console.log(Blog);

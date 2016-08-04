@@ -1,7 +1,7 @@
 import { first, find, isArray, last, sample, unescape, union, without } from 'lodash';
 import Faker from 'faker';
 import MarkovChain from 'markovchain';
-import { replaceEmails, replaceNames, replaceTwitter, parseTemplate, generateTemplateSeeds } from '../utils/utils';
+import { replaceEmails, replaceNames, replaceTwitter, parseTemplate, generateTemplateSeeds } from '../../utils/utils';
 import followingCorpus from '../../dictionary/following.json';
 import pos from '../../corpus/pos.json';
 
@@ -13,7 +13,7 @@ let seed = '';
 
 export const generateTitleByTemplate = (following = followingCorpus) => {
   const seeds = generateTemplateSeeds(following, 'title');
-  return parseTemplate(seeds).replace(/\s+(\W)/g, '$1');
+  return parseTemplate(seeds);
 }
 
 export const generateTitleByMarkovChain = (following = followingCorpus) => {

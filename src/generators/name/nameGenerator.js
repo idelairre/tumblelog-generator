@@ -1,7 +1,7 @@
 import { concat, first, find, sample } from 'lodash';
 import Faker from 'faker';
-import corpus from '../../../corpus/nameCorpus.json';
-import prefixes from '../../../corpus/prefixes.json';
+import corpus from '../../corpus/nameCorpus.json';
+import prefixes from '../../corpus/prefixes.json';
 
 const flavor = tumblelog => {
   const seperators = ['-', '_', '', '-and-'];

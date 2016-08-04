@@ -1,7 +1,7 @@
 import Faker from 'faker';
-import generateName from '../name/nameGenerator';
-import { generateTitleByTemplate, generateTitleByMarkovChain } from '../title/titleGenerator';
-import { generateDescriptionByTemplate, generateDescriptionByMarkovChain } from '../description/descriptionGenerator';
+import generateName from '../../generators/name/nameGenerator';
+import { generateTitleByTemplate, generateTitleByMarkovChain } from '../../generators/title/titleGenerator';
+import { generateDescriptionByTemplate, generateDescriptionByMarkovChain } from '../../generators/description/descriptionGenerator';
 
 export const generateTumblelog = (name = generateName()) => {
   const tumblelogDescription = generateDescriptionByMarkovChain();

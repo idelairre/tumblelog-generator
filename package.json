@@ -12,7 +12,7 @@
   "scripts": {
     "clean": "rimraf lib dist",
     "lint": "eslint src test",
-    "start": "babel-node src/blog.js",
+    "start": "babel-node src/index.js",
     "test": "karma start karma/karma.config.development.js",
     "test:teamcity": "karma start karma/karma.config.production.js",
     "build:umd": "webpack src/index.js dist/tumblelog-generator.js --config webpack/webpack.config.development.js",

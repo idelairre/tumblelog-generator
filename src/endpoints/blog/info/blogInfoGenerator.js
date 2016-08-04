@@ -1,6 +1,8 @@
 import Faker from 'faker';
 import { first, find, sample } from 'lodash';
-import generateTumblelogName from './name/nameGenerator';
+import generateTumblelogName from '../../../generators/name/nameGenerator';
+import { generateDescriptionByTemplate } from '../../../generators/description/descriptionGenerator';
+import { generateResponse } from '../../../utils/utils';
 
 export const generateBlogInfo = (name = generateTumblelogName()) => {
   const user = {
@@ -26,7 +28,7 @@ export const generateBlogInfos = num => {
   return tumblelogs;
 }
 
-export const generateBlogInfoResponse = name => {
+export const fetch = name => {
   const response = {
     blog: generateBlogInfo(name)
   };

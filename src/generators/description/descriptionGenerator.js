@@ -1,8 +1,7 @@
 import { first, find, sample, unescape, without } from 'lodash';
-import { parseTemplate } from '../utils/utils';
+import { generateTemplateSeeds, parseTemplate, generateResponse, replaceRealInfo } from '../../utils/utils';
 import Faker from 'faker';
 import MarkovChain from 'markovchain';
-import pos from 'pos';
 import generateTumblelogName from '../name/nameGenerator';
 import followingCorpus from '../../dictionary/following.json';
 
@@ -10,11 +9,11 @@ let markov = null;
 
 export const generateDescriptionByTemplate = (following = followingCorpus) => {
   const seeds = generateTemplateSeeds(following, 'description');
-  return parseTemplate(seed);
+  return parseTemplate(seeds);
 }
 
 export const generateDescriptionByMarkovChain = (following = followingCorpus) => {
-  const geRandomStarter = wordList => {
+  const getRandomStarter = wordList => {
     const tmpList = Object.keys(wordList).filter(word => {
       return word[0];
     });
@@ -32,5 +31,5 @@ export const generateDescriptionByMarkovChain = (following = followingCorpus) =>
     seed += desc;
   });
   markov = markov || new MarkovChain(seed);
-  return replaceTwitter(replaceEmails(markov.start(geRandomStarter).end(terminator).process()));
+  return replaceRealInfo(markov.start(geRandomStarter).end(terminator).process());
 }
