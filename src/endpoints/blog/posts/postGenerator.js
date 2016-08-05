@@ -1,24 +1,25 @@
-import Faker from 'faker';
-import { first, find, sample } from 'lodash';
-import { generateApiPost } from '../../../objects/post/postGenerator';
-import generateTumblelogName from '../../../generators/name/nameGenerator';
-import { generateResponse } from '../../../utils/utils';
+import { defaults } from 'lodash';
+import { generateBlogInfo } from '../info/blogInfoGenerator';
+import { generateApiPost, randomType } from '../../../objects/post/postGenerator';
+import * as Utils from '../../../utils/utils';
 
 export const generateBlogPost = (name, type) => {
   return generateApiPost(name, type);
-}
+};
 
-export const generateBlogPosts = (name, type, num = 10) => {
+export const generateBlogPosts = (name, query) => {
   const tumblelogs = [];
-  for (let i = 0; i < num; i += 1) {
-    tumblelogs.push(generateBlogPost(name, type));
+  for (let i = 0; i < query.limit; i += 1) {
+    tumblelogs.push(generateBlogPost(name, query));
   }
   return tumblelogs;
-}
+};
 
-export const fetch = (name, query = { limit: 10, offset: 0 }) => {
+export const fetch = (name, { type = randomType(true), limit = 10 } = {}) => { // not too sure about this
   const response = {
-    posts: generateBlogPosts(name, query.type, query.limit)
+    blog: generateBlogInfo(),
+    posts: generateBlogPosts(name, { type, limit }),
+    total_posts: Utils.number({ min: 1 })
   };
-  return generateResponse(response);
-}
+  return Utils.generateResponse(response);
+};

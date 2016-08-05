@@ -1,8 +1,7 @@
 import Faker from 'faker';
 import { first, find, sample } from 'lodash';
-import pos from 'pos';
-import generateTumblelogName from '../../generators/name/nameGenerator';
-import { generateResponse } from '../../utils/utils';
+import generateTumblelogName from '../../../generators/name/nameGenerator';
+import { generateResponse } from '../../../utils/utils';
 
 export const generateFollowing = (name = generateTumblelogName()) => {
   const user = {
@@ -22,7 +21,7 @@ export const generateFollowings = num => {
   return following;
 }
 
-export const generateResponse = request => {
+export const fetch = request => {
   const blogs = generateFollowing(request.limit);
   return generateResponse(blogs);
 }

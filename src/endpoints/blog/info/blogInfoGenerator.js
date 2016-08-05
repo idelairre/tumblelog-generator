@@ -1,14 +1,13 @@
 import Faker from 'faker';
-import { first, find, sample } from 'lodash';
 import generateTumblelogName from '../../../generators/name/nameGenerator';
 import { generateDescriptionByTemplate } from '../../../generators/description/descriptionGenerator';
-import { generateResponse } from '../../../utils/utils';
+import * as Utils from '../../../utils/utils';
 
 export const generateBlogInfo = (name = generateTumblelogName()) => {
   const user = {
     title: name,
     posts: Faker.random.number(),
-    updated: Date.parse(Faker.date.past()),
+    updated: Utils.generateTimestamp(),
     description: generateDescriptionByTemplate(),
     ask: Faker.random.boolean(),
     likes: Faker.random.number(),
@@ -18,7 +17,7 @@ export const generateBlogInfo = (name = generateTumblelogName()) => {
     user.ask_anon = Faker.random.boolean();
   }
   return user;
-}
+};
 
 export const generateBlogInfos = num => {
   const tumblelogs = [];
@@ -26,11 +25,11 @@ export const generateBlogInfos = num => {
     tumblelogs.push(generateBlogInfo());
   }
   return tumblelogs;
-}
+};
 
 export const fetch = name => {
   const response = {
     blog: generateBlogInfo(name)
   };
-  return generateResponse(response);
-}
+  return Utils.generateResponse(response);
+};

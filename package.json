@@ -73,9 +73,36 @@
     "speller": "^1.0.1",
     "synaptic": "^1.0.8",
     "tensify": "0.0.2",
+    "tumblr.js": "^1.1.1",
     "typo-js": "^1.0.1",
     "word2vec": "^1.1.0",
     "wordnet-db": "^3.1.2",
     "wordnetjs": "^0.3.0"
+  },
+  "xo": {
+    "env": {
+      "browser": true
+    },
+    "esnext": true,
+    "rules": {
+      "indent": [
+        0
+      ],
+      "babel/object-curly-spacing": [
+        0
+      ],
+      "babel/new-cap": [
+        0
+      ],
+      "no-new": [
+        0
+      ],
+      "camelcase": [
+        0
+      ],
+      "xo/filename-case": [
+        0
+      ]
+    }
   }
 }

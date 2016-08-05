@@ -11,11 +11,11 @@ export const formatDictionary = dictionary => {
     }
   });
   return without(dictionary, '', undefined);
-}
+};
 
 const formatNames = names => {
   return names.map(name => name.toLowerCase());
-}
+};
 
 const generatePosHash = (input, property = false) => {
   const tagger = new pos.Tagger();
@@ -72,7 +72,7 @@ const generatePosHash = (input, property = false) => {
   });
 
   return posHash;
-}
+};
 
 // dictionary = _.union(dictionary, names, prefixes, ['anarcha', 'anhedonic', 'anarcho', 'alt', 'crit', 'duchamp', 'hauntology', 'goth', 'gothic', 'lenin', 'lit', 'miley', 'stoya']).sort();
 
@@ -123,7 +123,7 @@ export const breakUp = (input, dictionary) => {
   return positions.map(entry => {
     return entry.word;
   });
-}
+};
 
 export const generateCorpus = following => {
   let corpus = [];
@@ -133,7 +133,7 @@ export const generateCorpus = following => {
     }
   });
   return corpus;
-}
+};
 
 export const readDictionary = (filename, encoding = 'utf8') => {
   if (filename.match(/\.json$/)) {
@@ -141,7 +141,7 @@ export const readDictionary = (filename, encoding = 'utf8') => {
   } else {
     return fs.readFileSync(filename, encoding);
   }
-}
+};
 
 export const saveDictionary = (filename, dictionary) => {
   try {
@@ -150,4 +150,4 @@ export const saveDictionary = (filename, dictionary) => {
   } catch (err) {
     console.error(err);
   }
-}
+};

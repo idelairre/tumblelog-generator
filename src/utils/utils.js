@@ -1,9 +1,25 @@
-import { isEmpty, replace, sample, without } from 'lodash';
+import { isEmpty, replace, sample, truncate, without } from 'lodash';
 import Faker from 'faker';
 import pos from 'pos';
 import generateTumblelogName from '../generators/name/nameGenerator';
 import posCorpus from '../corpus/pos.json';
 import following from '../dictionary/following.json';
+
+export const boolean = () => {
+  return Faker.random.boolean();
+}
+
+export const number = (args = { min: 0, max: false }) => {
+  return Faker.random.number(args);
+}
+
+export const uuid = (length = false) => {
+  const uuid = Faker.random.uuid();
+  if (length) {
+    return truncate(uuid, { length, omission: '' }).replace(/-/g, '');
+  }
+  return uuid.replace(/-/g, '');
+}
 
 let names = [];
 
@@ -36,12 +52,20 @@ export const replaceRealInfo = text => {
   return replaceNames(replaceTwitter(replaceEmails(text)));
 }
 
+export const generateSocialSetting = () => {
+  return sample(['auto', 'Y', 'N']);
+}
+
 export const generateTumblrUrl = name => {
   return `http:\/\/${name}.tumblr.com`;
 }
 
 export const generateTumblrUuid = name => {
-  return `${tumblelogName}.tumblr.com`;
+  return `${name}.tumblr.com`;
+}
+
+export const generateTimestamp = () => {
+  return parseInt(truncate(Date.parse(Faker.date.past()), { length: 10, omission: '' }));
 }
 
 export const generateResponse = response => {
@@ -50,6 +74,13 @@ export const generateResponse = response => {
     msg: 'OK',
     response
   };
+}
+
+export const generateError = () => {
+  return {
+    meta: '400',
+    msg: 'Error'
+  }
 }
 
 export const parseTemplate = template => {

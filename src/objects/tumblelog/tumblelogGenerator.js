@@ -2,34 +2,35 @@ import Faker from 'faker';
 import generateName from '../../generators/name/nameGenerator';
 import { generateTitleByTemplate, generateTitleByMarkovChain } from '../../generators/title/titleGenerator';
 import { generateDescriptionByTemplate, generateDescriptionByMarkovChain } from '../../generators/description/descriptionGenerator';
+import * as Utils from '../../utils/utils';
 
 export const generateTumblelog = (name = generateName()) => {
   const tumblelogDescription = generateDescriptionByMarkovChain();
   return {
     anonymous_asks: Faker.random.number({ min: 0, max: 1 }),
-    asks: Faker.random.boolean(),
+    asks: Utils.boolean(),
     avatar_url: `https://66.media.tumblr.com/avatar_${Faker.random.uuid().slice(0, 12).replace(/-/g, '')}_128.png`,
-    can_recieve_message: Faker.random.boolean(),
-    can_send_messages: Faker.random.boolean(),
-    can_subscribe: Faker.random.boolean(),
+    can_recieve_message: Utils.boolean(),
+    can_send_messages: Utils.boolean(),
+    can_subscribe: Utils.boolean(),
     cname: '',
-    customizable: Faker.random.boolean(),
+    customizable: Utils.boolean(),
     dashboard_url: `/blog/${name}`,
     description: tumblelogDescription,
     description_sanitized: tumblelogDescription,
-    following: Faker.random.boolean(),
-    is_group: Faker.random.boolean(),
-    is_private: Faker.random.boolean(),
-    is_subscribed: Faker.random.boolean(),
+    following: Utils.boolean(),
+    is_group: Utils.boolean(),
+    is_private: Utils.boolean(),
+    is_subscribed: Utils.boolean(),
     likes: Faker.random.number(),
     name: name,
     premium_partner: false,
-    share_following: Faker.random.boolean(),
+    share_following: Utils.boolean(),
     title: generateTitleByTemplate(),
     url: `http://${name}.tumblr.com`,
     uuid: `${name}.tumblr.com`
   };
-}
+};
 
 export const generateTumblelogs = num => {
   const tumblelogs = [];
@@ -37,4 +38,4 @@ export const generateTumblelogs = num => {
     tumblelogs.push(generateTumblelog());
   }
   return tumblelogs;
-}
+};
