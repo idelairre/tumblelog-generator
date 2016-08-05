@@ -39,7 +39,7 @@ export const generateId = () => {
 };
 
 export const generateAudioPlayer = () => {
-  return `<embed type="application/x-shockwave-flash" src=http://assets.tumblr.com/swf/audio_player.swf?audio_file=http://tumblr.com/audio_file/${Utils.number()}/tumblr_${Utils.uuid(17)}&color=${Faker.internet.color()}&logo=soundcloud" height="27" width="207" quality="best"></embed>`
+  return `<embed type="application/x-shockwave-flash" src=http://assets.tumblr.com/swf/audio_player.swf?audio_file=http://tumblr.com/audio_file/${Utils.number()}/tumblr_${Utils.uuid(17)}&color=${Utils.color()}&logo=soundcloud" height="27" width="207" quality="best"></embed>`
 }
 
 export const generateVideoPlayer = () => {
@@ -63,8 +63,8 @@ export const generateMediaAsset = (size, filetype = 'jpg') => {
   return `http://${Utils.number({ min: 20, max: 99 })}.media.tumblr.com/tumblr_${Utils.uuid(19)}_${size}${size === 75 ? 'sq' : ''}.${filetype}`;
 }
 
-export const generatePostUrl = (tumblelog = generateTumblelogName(), title = generateTitleByTemplate()) => {
-  return `${Utils.generateTumblrUuid(tumblelog)}/post/${Utils.number()}/${kebabCase(title)}`;
+export const generatePostUrl = (tumblelog = generateTumblelogName(), id = generateId(), title = generateTitleByTemplate()) => {
+  return `${Utils.generateTumblrUuid(tumblelog)}/post/${id}/${kebabCase(title)}`;
 };
 
 export const generateTinyUrl = () => {
@@ -100,19 +100,19 @@ export const generateTrail = (num = Utils.number({ min: 0, max: 2 })) => {
         active: Utils.boolean(),
         theme: {
           avatar_shape: sample(['circle', 'square']),
-          background_color: Faker.internet.color(),
+          background_color: Utils.color(),
           body_font: randomFont(),
           header_bounds: sample([0, `${Utils.number({ max: 2000 })}, ${Utils.number({ max: 2000 })}, ${Utils.number({ max: 2000 })}, ${Utils.number({ max: 2000 })}`]),
           header_image: generateStaticAsset(),
           header_image_focused: generateStaticAsset(),
           header_image_scaled: generateStaticAsset(),
           header_stretch: Utils.boolean(),
-          link_color: Faker.internet.color(),
+          link_color: Utils.color(),
           show_avatar: Utils.boolean(),
           show_description: Utils.boolean(),
           show_header_image: Utils.boolean(),
           show_title: Utils.boolean(),
-          title_color: Faker.internet.color(),
+          title_color: Utils.color(),
           title_font: randomFont(),
           title_font_weight: sample(['bold', 'regular'])
         },
@@ -164,14 +164,14 @@ export const generateClientPost = (tumblelog = generateTumblelogName()) => {
     'placement_id': null,
     'post-id': id.toString(),
     'premium-tracked': null,
-    'pt': Faker.random.alphaNumeric(),
+    'pt': Utils.uuid(),
     'recommendation-reason': null,
     'root_id': id,
-    'serve-id': Faker.random.alphaNumeric(),
+    'serve-id': Utils.uuid(),
     'share_popover_data': {
       'abuse_url': 'https://www.tumblr.com/abuse',
-      'embed_did': Faker.random.alphaNumeric(),
-      'embed_key': Faker.random.alphaNumeric(),
+      'embed_did': Utils.uuid(),
+      'embed_key': Utils.uuid(),
       'has_facebook': Utils.boolean(),
       'has_user': Utils.boolean(),
       'is_private': sample([0, 1]),
@@ -189,10 +189,10 @@ export const generateClientPost = (tumblelog = generateTumblelogName()) => {
       'twitter_username': `@${generateTumblelogName()}`
     },
     'sponsered': '',
-    'tags': Faker.random.words().split(' '),
+    'tags': Utils.words(),
     'tumblelog': tumblelog,
     'tumblelog-content-rating': contentRating(),
-    'tumblelog-key': Faker.random.alphaNumeric(),
+    'tumblelog-key': Utils.uuid(8),
     'tumblelog-name': tumblelog,
     'type': randomType()
   };
@@ -221,13 +221,13 @@ export const generateApiPost = (tumblelog = generateTumblelogName(), options = {
     blog_name: tumblelog,
     id: generateId(),
     post_url: Faker.internet.url(),
-    type: options.type || randomType(),
-    date: Faker.date.past(),
+    type: options.type || randomType(true),
+    date: Utils.past(),
     timestamp: Utils.generateTimestamp(),
     state: options.state || randomState(),
     format: options.format || randomFormat(),
     reblog_key: Utils.uuid(8),
-    tags: Faker.random.words().split(' '),
+    tags: Utils.words(),
     short_url: generateTinyUrl(),
     recommended_source: null,
     recommended_color: null,
@@ -245,62 +245,84 @@ export const generateApiPost = (tumblelog = generateTumblelogName(), options = {
       comment: ''
     };
   }
+  return appendTypeAttributes(post);
+};
+
+const appendTypeAttributes = post => {
   if (post.type === 'photo' || post.type === 'quote') {
-    post.source_url = generatePostUrl();
-    post.source_title = generateTumblelogName();
+    Object.assign(post, {
+      source_url: generatePostUrl(post.blog_name, post.id),
+      source_title: generateTumblelogName()
+    });
   }
   if (post.type === 'photo') {
-    post.image_permalink = '';
-    post.photos = generatePhotos();
-    post.caption = '';
-    post.summary = '';
+    Object.assign(post, {
+      image_permalink: '',
+      photos: generatePhotos(),
+      caption: '',
+      summary: ''
+    });
   } else if (post.type === 'text') {
-    post.title = Faker.lorem.sentence();
-    post.body = Faker.lorem.paragraph();
+    Object.assign(post, {
+      title: Faker.lorem.sentence(),
+      body: Faker.lorem.paragraph()
+    });
   } else if (post.type === 'quote') {
-    post.text = Faker.lorem.sentence();
     const source = generateTumblelogName();
-    post.source = `<a href="${Faker.internet.url()}" target="_blank">${source}</a>`;
+    Object.assign(post, {
+      text: Faker.lorem.sentence(),
+      source: `<a href="${Faker.internet.url()}" target="_blank">${source}</a>`
+    });
     if (Utils.boolean()) {
       const source2 = generateTumblelogName();
       post.source += `(via <a href="${Faker.internet.url()}" target="_blank">${source2}</a>`;
     }
   } else if (post.type === 'link') {
-    post.url = Faker.internet.url();
-    post.author = generateTumblelogName();
-    post.excerpt = generateTitleByTemplate();
-    post.publisher = Faker.internet.url();
-    post.photos = generatePhotos();
-    post.description = Faker.lorem.sentence(); // TODO: write function that wraps text in blockquotes and p tags
+    Object.assign(post, {
+      url: Faker.internet.url(),
+      author: generateTumblelogName(),
+      excerpt: generateTitleByTemplate(),
+      publisher: Faker.internet.url(),
+      photos: generatePhotos(),
+      description: Faker.lorem.sentence()
+    }); // TODO: write function that wraps text in blockquotes and p tags
   } else if (post.type === 'chat') {
-    post.body = '';
-    post.dialogue = []; // TODO: implement function to create fake dialogue
+    Object.assign(post, {
+      body: '',
+      dialogue: [] // TODO: implement function to create fake dialogue
+    });
   } else if (post.type === 'audio') {
     const player = generateAudioPlayer();
-    post.caption = Faker.lorem.sentence();
-    post.embed = player;
-    post.player = player;
-    post.plays = Utils.number();
-    post.audio_url = Faker.internet.url(); // TODO: look at the way these are generated for soundcloud
-    post.audio_source_url = Faker.internet.url();
-    post.is_external = Utils.boolean();
-    post.audio_type = 'soundcloud';
-    post.provider_url = Faker.internet.url();
+    Object.assign(post, {
+      caption: Faker.lorem.sentence(),
+      embed: player,
+      player: player,
+      plays: Utils.number(),
+      audio_url: Faker.internet.url(), // TODO: look at the way these are generated for soundcloud
+      audio_source_url: Faker.internet.url(),
+      is_external: Utils.boolean(),
+      audio_type: 'soundcloud',
+      provider_url: Faker.internet.url()
+    });
   } else if (post.type === 'video') {
-    post.summary = generateTitleByTemplate();
-    post.thumbnail_url = Faker.internet.url();
-    post.video_type = 'youtube';
-    post.html5_capable = true;
-    post.player = generateVideoPlayer();
-    post.permalink_url = `https://www.youtube.com/watch?v=${Utils.uuid(11)}`;
-    post.thumbnail_width = 480;
-    post.thumbnail_height = 360;
+    Object.assign(post, {
+      summary: generateTitleByTemplate(),
+      thumbnail_url: Faker.internet.url(),
+      video_type: 'youtube',
+      html5_capable: true,
+      player: generateVideoPlayer(),
+      permalink_url: `https://www.youtube.com/watch?v=${Utils.uuid(11)}`,
+      thumbnail_width: 480,
+      thumbnail_height: 360
+    });
   } else if (post.type === 'answer') {
     const asker = generateTumblelogName();
-    post.asking_name = asker;
-    post.asking_url = generateTumblrUrl(asker);
-    post.question = Faker.lorem.sentence();
-    post.answer = Faker.lorem.sentence(); // TODO: wrap this in tags and shit
+    Object.assign(post, {
+      asking_name: asker,
+      asking_url: Utils.generateTumblrUrl(asker),
+      question: Faker.lorem.sentence(),
+      answer: Faker.lorem.sentence() // TODO: wrap this in tags and shit
+    });
   }
   return post;
-};
+}

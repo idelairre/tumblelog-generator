@@ -33,3 +33,5 @@ export const generateDescriptionByMarkovChain = (following = followingCorpus) =>
   markov = markov || new MarkovChain(seed);
   return replaceRealInfo(markov.start(geRandomStarter).end(terminator).process());
 }
+
+export default generateDescriptionByTemplate

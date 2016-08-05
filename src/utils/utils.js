@@ -1,24 +1,92 @@
 import { isEmpty, replace, sample, truncate, without } from 'lodash';
-import Faker from 'faker';
+import mersenne from './mersenne';
 import pos from 'pos';
 import generateTumblelogName from '../generators/name/nameGenerator';
+import generateTitleByTemplate from '../generators/title/titleGenerator';
 import posCorpus from '../corpus/pos.json';
 import following from '../dictionary/following.json';
 
 export const boolean = () => {
-  return Faker.random.boolean();
+  return !!number(1);
 }
 
-export const number = (args = { min: 0, max: false }) => {
-  return Faker.random.number(args);
+export const color = (baseRed255 = 0, baseGreen255 = 0, baseBlue255 = 0) => {
+  // based on awesome response : http://stackoverflow.com/questions/43044/algorithm-to-randomly-generate-an-aesthetically-pleasing-color-palette
+  const red = Math.floor((number(256) + baseRed255) / 2);
+  const green = Math.floor((number(256) + baseGreen255) / 2);
+  const blue = Math.floor((number(256) + baseBlue255) / 2);
+  const redStr = red.toString(16);
+  const greenStr = green.toString(16);
+  const blueStr = blue.toString(16);
+  return `#${redStr.length === 1 ? '0' : ''}${redStr}${(greenStr.length === 1 ? '0' : '')}${greenStr}${(blueStr.length === 1 ? '0': '')}${blueStr}`;
+}
+
+export const email = (name = generateTumblelogName()) => {
+  const provider = sample(['gmail', 'hotmail', 'aol', 'yahoo']);
+  return `${name}@${provider}.com`;
+}
+
+export const number = (options = { min: 0, max: false }) => {
+  if (typeof options === 'number') {
+    options = {
+      max: options
+    };
+  }
+
+  if (typeof options.min === 'undefined') {
+    options.min = 0;
+  }
+
+  if (typeof options.max === 'undefined') {
+    options.max = 99999;
+  }
+  if (typeof options.precision === 'undefined') {
+    options.precision = 1;
+  }
+
+  // Make the range inclusive of the max value
+  let max = options.max;
+  if (max >= 0) {
+    max += options.precision;
+  }
+
+  const randomNumber = options.precision * Math.floor(mersenne.rand(max / options.precision, options.min / options.precision));
+  return randomNumber;
+}
+
+export const past = (years, refDate) => {
+  const date = (refDate) ? new Date(Date.parse(refDate)) : new Date();
+  const range = {
+    min: 1000,
+    max: (years || 1) * 365 * 24 * 3600 * 1000
+  };
+
+  let past = date.getTime();
+  past -= number(range); // some time from now to N years ago, in milliseconds
+  date.setTime(past);
+
+  return date;
 }
 
 export const uuid = (length = false) => {
-  const uuid = Faker.random.uuid();
+  const RFC4122_TEMPLATE = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
+  const replacePlaceholders = placeholder => {
+    const random = number({
+      min: 0,
+      max: 15
+    });
+    const value = placeholder == 'x' ? random : (random & 0x3 | 0x8);
+    return value.toString(16);
+  };
+  const uuid = RFC4122_TEMPLATE.replace(/[xy]/g, replacePlaceholders);
   if (length) {
     return truncate(uuid, { length, omission: '' }).replace(/-/g, '');
   }
   return uuid.replace(/-/g, '');
+}
+
+export const words = (length = number(12)) => {
+  return generateTitleByTemplate().split(' ').slice(0, length);
 }
 
 let names = [];
@@ -33,15 +101,14 @@ export const replaceNames = text => {
     if (names.includes(word)) {
       word = generateTumblelogName();
       return word;
-    } else {
-      return word;
     }
+    return word;
   }).join(' ');
   return words;
 }
 
 export const replaceEmails = text => {
-  return text.replace(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi, Faker.internet.email());
+  return text.replace(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi, email());
 }
 
 export const replaceTwitter = text => {
@@ -65,7 +132,7 @@ export const generateTumblrUuid = name => {
 }
 
 export const generateTimestamp = () => {
-  return parseInt(truncate(Date.parse(Faker.date.past()), { length: 10, omission: '' }));
+  return parseInt(truncate(Date.parse(past()), { length: 10, omission: '' }));
 }
 
 export const generateResponse = response => {

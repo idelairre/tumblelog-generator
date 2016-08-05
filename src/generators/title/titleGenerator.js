@@ -57,3 +57,5 @@ const checkEndWord = sentence => {
 
   return sentence;
 }
+
+export default generateTitleByTemplate;
