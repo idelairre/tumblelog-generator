@@ -44,7 +44,7 @@ class Client {
   }
 
   userDashboard(options, callback) {
-    const data = User.dashboard.fetch();
+    const data = User.dashboard.fetch(options);
     if (this.returnPromises) {
       return Promise.resolve(data.response);
     } else {

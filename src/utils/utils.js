@@ -1,8 +1,7 @@
 import { isEmpty, replace, sample, truncate, without } from 'lodash';
 import mersenne from './mersenne';
 import pos from 'pos';
-import generateTumblelogName from '../generators/name/nameGenerator';
-import generateTitleByTemplate from '../generators/title/titleGenerator';
+import Generator from '../generators/generators';
 import posCorpus from '../corpus/pos.json';
 import following from '../dictionary/following.json';
 
@@ -21,7 +20,7 @@ export const color = (baseRed255 = 0, baseGreen255 = 0, baseBlue255 = 0) => {
   return `#${redStr.length === 1 ? '0' : ''}${redStr}${(greenStr.length === 1 ? '0' : '')}${greenStr}${(blueStr.length === 1 ? '0': '')}${blueStr}`;
 }
 
-export const email = (name = generateTumblelogName()) => {
+export const email = (name = Generator.name.tumblelog()) => {
   const provider = sample(['gmail', 'hotmail', 'aol', 'yahoo']);
   return `${name}@${provider}.com`;
 }
@@ -86,7 +85,7 @@ export const uuid = (length = false) => {
 }
 
 export const words = (length = number(12)) => {
-  return generateTitleByTemplate().split(' ').slice(0, length);
+  return Generator.title.template().split(' ').slice(0, length);
 }
 
 let names = [];
@@ -99,7 +98,7 @@ export const replaceNames = text => {
   }
   const words = text.split(' ').map(word => {
     if (names.includes(word)) {
-      word = generateTumblelogName();
+      word = Generator.name.tumblelog();
       return word;
     }
     return word;
@@ -112,26 +111,26 @@ export const replaceEmails = text => {
 }
 
 export const replaceTwitter = text => {
-  return text.replace(/^@?(\w){1,15}$/g, `@${generateTumblelogName()}`);
+  return text.replace(/^@?(\w){1,15}$/g, `@${Generator.name.tumblelog()}`);
 }
 
 export const replaceRealInfo = text => {
   return replaceNames(replaceTwitter(replaceEmails(text)));
 }
 
-export const generateSocialSetting = () => {
+export const setting = () => {
   return sample(['auto', 'Y', 'N']);
 }
 
-export const generateTumblrUrl = name => {
+export const tumblrUrl = name => {
   return `http:\/\/${name}.tumblr.com`;
 }
 
-export const generateTumblrUuid = name => {
+export const tumblrUuid = name => {
   return `${name}.tumblr.com`;
 }
 
-export const generateTimestamp = () => {
+export const timestamp = () => {
   return parseInt(truncate(Date.parse(past()), { length: 10, omission: '' }));
 }
 

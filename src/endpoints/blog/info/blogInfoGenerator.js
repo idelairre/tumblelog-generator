@@ -1,20 +1,18 @@
-import Faker from 'faker';
-import generateTumblelogName from '../../../generators/name/nameGenerator';
-import { generateDescriptionByTemplate } from '../../../generators/description/descriptionGenerator';
+import Generator from '../../../generators/generators';
 import * as Utils from '../../../utils/utils';
 
-export const generateBlogInfo = (name = generateTumblelogName()) => {
+export const generateBlogInfo = (name = Generator.name.tumblelog()) => {
   const user = {
     title: name,
-    posts: Faker.random.number(),
-    updated: Utils.generateTimestamp(),
-    description: generateDescriptionByTemplate(),
-    ask: Faker.random.boolean(),
-    likes: Faker.random.number(),
-    is_nsfw: Faker.random.boolean()
+    posts: Utils.number(),
+    updated: Utils.timestamp(),
+    description: Generator.description.template(),
+    ask: Utils.boolean(),
+    likes: Utils.number(),
+    is_nsfw: Utils.boolean()
   };
   if (user.ask) {
-    user.ask_anon = Faker.random.boolean();
+    user.ask_anon = Utils.boolean();
   }
   return user;
 };

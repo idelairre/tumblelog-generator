@@ -1,17 +1,19 @@
-import { generateApiPost } from '../../../objects/post/postGenerator';
-import { generateResponse } from '../../../utils/utils';
+import { defaults } from 'lodash';
+import { generateApiPost, randomType } from '../../../objects/post/postGenerator';
+import * as Utils from '../../../utils/utils';
 
-export const generateDashboardPosts = (name, num = 10) => {
+export const generateDashboardPosts = query => {
+  query = defaults({ limit: 10 }, query);
   const posts = [];
-  for (let i = 0; i < num; i += 1) {
-    posts.push(generateApiPost());
+  for (let i = 0; i < query.limit; i += 1) {
+    posts.push(generateApiPost(null, query));
   }
   return posts;
 };
 
-export const fetch = (name, query = { limit: 10, offset: 0 }) => {
+export const fetch = query => {
   const response = {
-    posts: generateDashboardPosts(name, query.limit)
+    posts: generateDashboardPosts(query)
   };
-  return generateResponse(response);
+  return Utils.generateResponse(response);
 };

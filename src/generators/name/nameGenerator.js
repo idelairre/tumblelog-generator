@@ -28,8 +28,6 @@ const flavor = tumblelog => {
   }
 }
 
-const generateName = () => {
+export const tumblelog = () => {
   return flavor(sample(corpus));
 }
-
-export default generateName;

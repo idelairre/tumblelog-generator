@@ -1,14 +1,13 @@
-import Faker from 'faker';
-import { first, find, sample } from 'lodash';
-import generateTumblelogName from '../../../generators/name/nameGenerator';
-import { generateResponse } from '../../../utils/utils';
+import { defaults } from 'lodash';
+import Generator from '../../../generators/generators';
+import * as Utils from '../../../utils/utils';
 
-export const generateFollowing = (name = generateTumblelogName()) => {
+export const generateFollowing = (name = Generator.name.tumblelog()) => {
   const user = {
     name,
-    title: generateTitleByTemplate(),
-    updated: Date.parse(Faker.date.past()),
-    description: generateDescriptionByTemplate()
+    title: Generator.title.template(),
+    updated: Utils.timestamp(),
+    description: Generator.description.template()
   };
   return user;
 }
@@ -21,7 +20,8 @@ export const generateFollowings = num => {
   return following;
 }
 
-export const fetch = request => {
-  const blogs = generateFollowing(request.limit);
-  return generateResponse(blogs);
+export const fetch = query => {
+  query = defaults({ limit: 10 }, query);
+  const blogs = generateFollowing(query.limit);
+  return Utils.generateResponse(blogs);
 }

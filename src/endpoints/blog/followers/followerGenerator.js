@@ -1,13 +1,12 @@
-import Faker from 'faker';
-import generateTumblelogName from '../../../generators/name/nameGenerator';
-import { generateResponse, generateTumblrUrl, generateTimestamp } from '../../../utils/utils';
+import Generator from '../../../generators/generators'
+import * as Utils from '../../../utils/utils';
 
-export const generateFollower = (name = generateTumblelogName()) => {
+export const generateFollower = (name = Generator.name.tumblelog()) => {
   const follower = {
     name,
     following: true,
-    url: generateTumblrUrl(name),
-    updated: generateTimestamp()
+    url: Utils.tumblrUrl(name),
+    updated: Utils.timestamp()
   };
   return follower;
 };
@@ -22,8 +21,8 @@ export const generateFollowers = (num = 10) => {
 
 export const fetch = (query = { limit: 10 }) => {
   const response = {
-    total_followers: Faker.random.number(),
+    total_followers: Utils.number(),
     users: generateFollowers(query.limit)
   };
-  return generateResponse(response);
+  return Utils.generateResponse(response);
 };

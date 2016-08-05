@@ -1,3 +1,9 @@
-import { Generator } from './index';
+import { Client, Generator } from './index';
 
-console.log(Generator.posts.generateApiPost());
+const client = new Client({
+  returnPromises: true
+});
+
+client.userLikes({ type: 'quote', limit: 1 }).then(data => {
+  // console.log(JSON.stringify(data, null, 3));
+});
