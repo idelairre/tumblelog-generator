@@ -8,7 +8,7 @@ module.exports = {
   singleRun: true,
   colors: true,
   frameworks: ['jasmine'],
-  browsers: ['Chrome', 'PhantomJS'],
+  browsers: ['Chrome'],
   files: ['./test/**/*.spec.js'],
   preprocessors: {
     './test/**/*.spec.js': ['webpack']

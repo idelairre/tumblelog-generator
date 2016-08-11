@@ -8,7 +8,6 @@ describe('Client', () => {
 
   it ('should return responses as a callback by default', done => {
     const client = new Client();
-    console.log(client);
     client.blogInfo('banshee-hands', (error, data) => {
       expect(data).toBeDefined();
       done();
@@ -52,7 +51,6 @@ describe('Client', () => {
     });
     client.blogInfo('banshee-hands', (error, data) => {
       expect(error).toBeDefined();
-      console.log(error);
       done();
     });
   });
