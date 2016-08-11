@@ -10,10 +10,13 @@ config.plugins = [
     'process.env.NODE_ENV': JSON.stringify('production')
   }),
   new webpack.optimize.UglifyJsPlugin({
+    minimize: true,
     compressor: {
-      warnings: false
+      warnings: true
     }
-  })
+  }),
+  new webpack.optimize.DedupePlugin(),
+  new webpack.optimize.AggressiveMergingPlugin()
 ];
 
 module.exports = config;

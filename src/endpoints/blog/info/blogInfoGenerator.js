@@ -1,7 +1,7 @@
 import Generator from '../../../generators/generators';
 import * as Utils from '../../../utils/utils';
 
-export const generateBlogInfo = (name = Generator.name()) => {
+export const generate = (name = Generator.name()) => {
   const user = {
     title: name,
     posts: Utils.number(),

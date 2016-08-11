@@ -1,7 +1,7 @@
 import { generateApiPost } from '../../../objects/post/postGenerator';
 import * as Utils from '../../../utils/utils';
 
-export const generateDashboardPosts = query => {
+export const generate = query => {
   query = Object.assign({ limit: 10 }, query);
   const posts = [];
   for (let i = 0; i < query.limit; i += 1) {

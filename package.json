@@ -1,5 +1,5 @@
 {
-  "name": "tumblelog-generator",
+  "name": "tumblr-faker",
   "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
@@ -15,19 +15,19 @@
     "start": "babel-node src/test.js",
     "test": "karma start karma/karma.config.development.js",
     "test:teamcity": "karma start karma/karma.config.production.js",
-    "build:umd": "webpack src/index.js dist/tumblelog-generator.js --config webpack/webpack.config.development.js",
-    "build:umd:min": "webpack src/index.js dist/tumblelog-generator.min.js --config webpack/webpack.config.production.js",
+    "build:umd": "webpack src/index.js --config webpack/webpack.config.development.js",
+    "build:umd:min": "webpack src/index.js --config webpack/webpack.config.production.js",
     "build": "npm run clean && npm run build:umd && npm run build:umd:min"
   },
-  "npmName": "tumblelog-generator",
+  "npmName": "tumblr-faker",
   "author": "Ian Delairre <idelairre@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/idelairre/tumblelog-generator"
+    "url": "git+https://github.com/idelairre/tumblr-faker"
   },
   "bugs": {
-    "url": "https://github.com/idelairre/tumblelog-generator/issues"
+    "url": "https://github.com/idelairre/tumblr-faker/issues"
   },
   "keywords": [
     "tumblelog-generator"
@@ -45,8 +45,6 @@
     "eslint": "^1.7.1",
     "jasmine-core": "^2.4.1",
     "json-loader": "^0.5.4",
-    "json5": "^0.4.0",
-    "json5-loader": "^0.6.0",
     "karma": "^0.13.9",
     "karma-chrome-launcher": "^1.0.1",
     "karma-htmlfile-reporter": "latest",
@@ -60,7 +58,6 @@
     "webpack": "^1.12.13"
   },
   "dependencies": {
-    "babel-cli": "^6.11.4",
     "babel-runtime": "^6.11.6",
     "markovchain": "^1.0.2",
     "pos": "^0.3.0"

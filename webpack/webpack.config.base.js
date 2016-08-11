@@ -1,11 +1,19 @@
-var path = require('path');
-
 'use strict';
+
+var path = require('path');
+var libraryName = require('../package.json').name;
+var outputFile = libraryName + '.js';
 
 module.exports = {
   entry: './src/index.js',
+  target: 'node',
+  devtool: 'source-map',
   output: {
-    library: 'test-project'
+    path: './lib',
+    filename: outputFile,
+    library: libraryName,
+    libraryTarget: 'umd',
+    umdNamedDefine: true
   },
   resolve: {
     extensions: ['', '.js']
@@ -25,7 +33,7 @@ module.exports = {
   },
   modulesDirectories: ['node_modules'],
   resolve: {
-    root: path.resolve(__dirname),
+    root: path.resolve('./src'),
     extensions: ['', '.webpack.js', '.web.js', '.js']
   },
   resolveLoader: {
