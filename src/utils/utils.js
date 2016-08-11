@@ -167,9 +167,9 @@ export const generateResponse = response => {
   };
 }
 
-export const generateError = () => {
+export const generateError = (type = '400') => {
   return {
-    meta: '400',
+    meta: type,
     msg: 'Error'
   }
 }
