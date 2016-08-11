@@ -1,9 +1,10 @@
-import { isEmpty, replace, sample, truncate, without } from 'lodash';
+import _, { without } from 'lodash';
 import mersenne from './mersenne';
 import pos from 'pos';
 import Generator from '../generators/generators';
 import posCorpus from '../corpus/pos.json';
 import following from '../dictionary/following.json';
+import './polyfill';
 
 export const boolean = () => {
   return !!number(1);
@@ -53,8 +54,13 @@ export const number = (options = { min: 0, max: false }) => {
   return randomNumber;
 }
 
+export const sample = array => {
+  const index = Math.floor(Math.random() * (array.length));
+  return array[index];
+}
+
 export const past = (years, refDate) => {
-  const date = (refDate) ? new Date(Date.parse(refDate)) : new Date();
+  const date = refDate ? new Date(Date.parse(refDate)) : new Date();
   const range = {
     min: 1000,
     max: (years || 1) * 365 * 24 * 3600 * 1000
@@ -65,6 +71,24 @@ export const past = (years, refDate) => {
   date.setTime(past);
 
   return date;
+}
+
+export const truncate = (string, length) => {
+  if (typeof string === 'string' && typeof length === 'number') {
+    return string.substring(0, length);
+  } else {
+    throw new TypeError('One or more parameters are not of correct type');
+  }
+}
+
+export const unescape = text => {
+  return _.unescape(text);
+}
+
+export const union = (...args) => {
+  return [].concat(...args).sort().filter((item, post, arr) => {
+    return !pos || item !== arr[pos - 1];
+  });
 }
 
 export const uuid = (length = false) => {
@@ -79,7 +103,7 @@ export const uuid = (length = false) => {
   };
   const uuid = RFC4122_TEMPLATE.replace(/[xy]/g, replacePlaceholders);
   if (length) {
-    return truncate(uuid, { length, omission: '' }).replace(/-/g, '');
+    return truncate(uuid, length).replace(/-/g, '');
   }
   return uuid.replace(/-/g, '');
 }
@@ -91,7 +115,7 @@ export const words = (length = number(12)) => {
 let names = [];
 
 export const replaceNames = text => {
-  if (isEmpty(names)) {
+  if (names.length === 0) {
     names = following.map(user => {
       return user.name;
     });
@@ -131,7 +155,8 @@ export const tumblrUuid = name => {
 }
 
 export const timestamp = () => {
-  return parseInt(truncate(Date.parse(past()), { length: 10, omission: '' }));
+  const date = Date.parse(past()).toString();
+  return parseInt(truncate(date, 10));
 }
 
 export const generateResponse = response => {
@@ -180,7 +205,7 @@ const seeds = [];
 
 export const generateTemplateSeeds = (corpus, property) => {
   const tagger = new pos.Tagger();
-  if (isEmpty(seeds)) {
+  if (seeds.length === 0) {
     corpus.forEach(item => {
       const desc = unescape(item[property]).trim();
       const words = new pos.Lexer().lex(desc);

@@ -2,9 +2,9 @@ import Blog from './endpoints/blog/blog';
 import User from './endpoints/user/user';
 
 class Client {
-  constructor({ returnPromises, user }) {
-    this.returnPromises = returnPromises || false;
-    this.user = user;
+  constructor(args = { returnPromises: false, user: false }) {
+    this.returnPromises = args.returnPromises;
+    this.user = args.user;
   }
 
   blogInfo(name, callback) {

@@ -1,4 +1,3 @@
-import { defaults } from 'lodash';
 import { generateApiPost } from '../../../objects/post/postGenerator';
 import { generateResponse } from '../../../utils/utils';
 
@@ -17,8 +16,7 @@ export const generateLikes = query => {
 };
 
 export const fetch = query => {
-  query = defaults(query, { limit: 10 });
-  console.log(query);
+  query = Object.assign({ limit: 10 }, query);
   const response = {
     posts: generateLikes(query)
   };

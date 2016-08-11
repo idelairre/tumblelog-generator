@@ -1,4 +1,3 @@
-import { defaults } from 'lodash';
 import Generator from '../../../generators/generators';
 import * as Utils from '../../../utils/utils';
 
@@ -21,7 +20,7 @@ export const generateFollowings = num => {
 }
 
 export const fetch = query => {
-  query = defaults({ limit: 10 }, query);
+  query = Object.assign({ limit: 10 }, query);
   const blogs = generateFollowing(query.limit);
   return Utils.generateResponse(blogs);
 }

@@ -8,14 +8,13 @@ module.exports = {
   singleRun: true,
   colors: true,
   frameworks: ['jasmine'],
-  browsers: ['PhantomJS'],
+  browsers: ['Chrome', 'PhantomJS'],
   files: ['./test/**/*.spec.js'],
   preprocessors: {
     './test/**/*.spec.js': ['webpack']
   },
   webpack: {
     module: {
-      noParse: /node_modules\/json-schema\/lib\/validate\.js/,
       preLoaders: [{
         test: /\.json$/,
         loader: 'json-loader',
@@ -40,6 +39,13 @@ module.exports = {
     }
   },
   webpackMiddleware: {
-    noInfo: true
+    stats: {
+      chunks: false,
+      errors: true,
+      colors: true,
+      modules: false,
+      noInfo: true,
+      warnings: false
+    }
   }
 }

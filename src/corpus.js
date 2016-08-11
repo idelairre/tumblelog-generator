@@ -1,6 +1,6 @@
 import { isEqual, sortBy, union, without } from 'lodash';
 import fs from 'fs';
-import following from '../dictionary/following.json';
+import following from './dictionary/following.json';
 
 export const formatDictionary = dictionary => {
   dictionary = dictionary.split('\n').map(word => {

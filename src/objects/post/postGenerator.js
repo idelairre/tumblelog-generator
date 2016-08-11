@@ -1,37 +1,37 @@
 import Faker from 'faker';
-import { sample, truncate, kebabCase, without } from 'lodash';
+import { kebabCase, without } from 'lodash';
 import Generator from '../../generators/generators';
 import * as Utils from '../../utils/utils';
 
 export const contentRating = () => {
-  return sample(['adult', 'nsfw']);
+  return Utils.sample(['adult', 'nsfw']);
 };
 
 export const randomType = (api = false) => {
   let types = ['photo', 'photoset', 'quote', 'note', 'video', 'answer', 'link', 'chat'];
   if (api) {
-    return sample(without(types.concat(['text']), 'photoset', 'note'));
+    return Utils.sample(without(types.concat(['text']), 'photoset', 'note'));
   }
-  return sample(types);
+  return Utils.sample(types);
 };
 
 export const randomFont = () => {
-  return sample(['Helvetica', 'Times New Roman', 'Streetscript']);
+  return Utils.sample(['Helvetica', 'Times New Roman', 'Streetscript']);
 };
 
 export const randomState = () => {
-  return sample(['published', 'queued', 'draft', 'private']);
+  return Utils.sample(['published', 'queued', 'draft', 'private']);
 };
 
 export const randomFormat = () => {
-  return sample(['html', 'markdown']);
+  return Utils.sample(['html', 'markdown']);
 };
 
 export const generateId = () => {
   const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   let id = '1';
   for (let i = 0; i < 11; i += 1) {
-    id += sample(numbers);
+    id += Utils.sample(numbers);
   }
   return parseInt(id);
 };
@@ -75,7 +75,7 @@ export const generatePhotos = (num = Utils.number({ min: 1, max: 5 })) => {
   const sizes = [{ width: 1280, height: 722 }, { width: 500, height: 282 }, { width: 400, height: 225 }, { width: 250, height: 141 }, { width: 100, height: 56 }, { width: 75, height: 75 }];
   for (let i = 0; i < num; i += 1) {
     const response = {
-      caption: sample(['', Generator.title.template()]),
+      caption: Utils.sample(['', Generator.title.template()]),
       alt_sizes: []
     };
     for (let j = 0; j < sizes.length; j += 1) {
@@ -97,10 +97,10 @@ export const generateTrail = (num = Utils.number({ min: 0, max: 2 })) => {
         name: Generator.name.tumblelog(),
         active: Utils.boolean(),
         theme: {
-          avatar_shape: sample(['circle', 'square']),
+          avatar_shape: Utils.sample(['circle', 'square']),
           background_color: Utils.color(),
           body_font: randomFont(),
-          header_bounds: sample([0, `${Utils.number({ max: 2000 })}, ${Utils.number({ max: 2000 })}, ${Utils.number({ max: 2000 })}, ${Utils.number({ max: 2000 })}`]),
+          header_bounds: Utils.sample([0, `${Utils.number({ max: 2000 })}, ${Utils.number({ max: 2000 })}, ${Utils.number({ max: 2000 })}, ${Utils.number({ max: 2000 })}`]),
           header_image: generateStaticAsset(),
           header_image_focused: generateStaticAsset(),
           header_image_scaled: generateStaticAsset(),
@@ -112,7 +112,7 @@ export const generateTrail = (num = Utils.number({ min: 0, max: 2 })) => {
           show_title: Utils.boolean(),
           title_color: Utils.color(),
           title_font: randomFont(),
-          title_font_weight: sample(['bold', 'regular'])
+          title_font_weight: Utils.sample(['bold', 'regular'])
         },
         share_likes: Utils.boolean(),
         share_following: Utils.boolean()
@@ -137,9 +137,9 @@ export const generateTrail = (num = Utils.number({ min: 0, max: 2 })) => {
 };
 
 export const flavor = tumblelog => {
-  const modifier = sample(['anarchy', 'slut', 'blood', 'communist', 'mermaid', 'fox', 'scorpio', 'queer', 'antifa', '69', 'trans', 'supa', 'slayin', 'words', 'poly']);
+  const modifier = Utils.sample(['anarchy', 'slut', 'blood', 'communist', 'mermaid', 'fox', 'scorpio', 'queer', 'antifa', '69', 'trans', 'supa', 'slayin', 'words', 'poly']);
   if (Utils.boolean()) {
-    return `${tumblelog}${sample('-', '_', '', '-and-') + modifier}`;
+    return `${tumblelog}${Utils.sample('-', '_', '', '-and-') + modifier}`;
   }
   return modifier + tumblelog;
 };
@@ -172,7 +172,7 @@ export const generateClientPost = (tumblelog = Geneartors.name.tumblelog()) => {
       'embed_key': Utils.uuid(),
       'has_facebook': Utils.boolean(),
       'has_user': Utils.boolean(),
-      'is_private': sample([0, 1]),
+      'is_private': Utils.sample([0, 1]),
       'permalink_label': 'Permalink',
       'pinterest_share_window': {},
       'post_id': id,

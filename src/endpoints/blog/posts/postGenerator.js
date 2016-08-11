@@ -1,4 +1,3 @@
-import { defaults } from 'lodash';
 import { generateBlogInfo } from '../info/blogInfoGenerator';
 import { generateApiPost, randomType } from '../../../objects/post/postGenerator';
 import * as Utils from '../../../utils/utils';
@@ -12,7 +11,7 @@ export const generateBlogPosts = (name, query) => {
 };
 
 export const fetch = (name, query) => {
-  query = defaults(query, { limit: 10 });
+  query = Object.assign({ limit: 10 }, query);
   const response = {
     blog: generateBlogInfo(),
     posts: generateBlogPosts(name, query),

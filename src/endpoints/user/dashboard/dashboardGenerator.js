@@ -1,9 +1,8 @@
-import { defaults } from 'lodash';
 import { generateApiPost, randomType } from '../../../objects/post/postGenerator';
 import * as Utils from '../../../utils/utils';
 
 export const generateDashboardPosts = query => {
-  query = defaults({ limit: 10 }, query);
+  query = Object.assign({ limit: 10 }, query);
   const posts = [];
   for (let i = 0; i < query.limit; i += 1) {
     posts.push(generateApiPost(null, query));

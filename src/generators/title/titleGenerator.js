@@ -1,11 +1,10 @@
-import { first, find, isArray, last, sample, unescape, union, without } from 'lodash';
-import Faker from 'faker';
+import { unescape, union } from 'lodash';
 import MarkovChain from 'markovchain';
 import * as Utils from '../../utils/utils';
 import followingCorpus from '../../dictionary/following.json';
 import pos from '../../corpus/pos.json';
 
-const BAD_TERMINATORS = union(pos.WRB, pos.CC, pos.IN, pos.DT, ['A', 'be', 'by', 'with', 'of', 'that', 'That', 'The', 'the', 'THE', 'a', 'an', 'and', 'as', 'I', 'in', 'In', 'im', 'is', 'Is', 'IS', 'on', 'so', 'to', 'To', 'TO', 'no', 'No', 'could', 'And', 'your', ',', 'for', 'from', '&']);
+const BAD_TERMINATORS = union(pos.WRB, pos.CC, pos.IN, pos.DT, ['A', 'be', 'by', 'with', 'of', 'that', 'That', 'The', 'the', 'THE', 'a', 'an', 'and', 'as', 'I', 'in', 'In', 'im', 'is', 'Is', 'IS', 'on', 'so', 'to', 'To', 'TO', 'no', 'No', 'could', 'And', 'your', ',', 'for', 'from', '&', ':']);
 
 let markovChain;
 
@@ -21,7 +20,7 @@ export const markov = (following = followingCorpus) => {
     const tmpList = Object.keys(wordList).filter(word => {
       return word[0];
     });
-    return sample(tmpList);
+    return Utils.sample(tmpList);
   }
 
   const terminator = sentence => {
@@ -34,7 +33,7 @@ export const markov = (following = followingCorpus) => {
     });
   }
   markovChain = markovChain || new MarkovChain(seed);
-  let sentence = Utils.replaceRealInfo(markov.start(randomStarter).end(terminator).process());
+  let sentence = Utils.replaceRealInfo(markovChain.start(randomStarter).end(terminator).process());
   return checkEndWord(sentence);
 }
 
@@ -51,9 +50,17 @@ const checkEndWord = sentence => {
     sentence[sentence.length - 1] = endWord;
   }
 
-  if (isArray(sentence)) {
+  if (Array.isArray(sentence)) {
     sentence = sentence.join(' ');
   }
 
   return sentence;
+}
+
+export const generate = (type = 'markov') => {
+  if (type === 'markov') {
+    return markov();
+  } else {
+    return template();
+  }
 }
