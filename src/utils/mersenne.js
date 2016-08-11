@@ -253,10 +253,11 @@ var gen = new MersenneTwister19937;
 gen.init_genrand((new Date).getTime() % 1000000000);
 
 // Added max, min range functionality, Marak Squires Sept 11 2014
-exports.rand = function(max, min) {
-  if (max === undefined) {
-    min = 0;
-    max = 32768;
+exports.rand = function(min = 0, max = 32768) {
+  if (typeof min === 'object') {
+    var args = min;
+    min = args.min;
+    max = args.max;
   }
   return Math.floor(gen.genrand_real2() * (max - min) + min);
 }

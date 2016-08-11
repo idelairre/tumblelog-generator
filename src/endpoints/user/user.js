@@ -8,6 +8,6 @@ const User = {
   following,
   info,
   likes
-}
+};
 
 export default User;

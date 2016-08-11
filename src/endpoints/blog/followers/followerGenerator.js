@@ -1,7 +1,7 @@
-import Generator from '../../../generators/generators'
+import Generator from '../../../generators/generators';
 import * as Utils from '../../../utils/utils';
 
-export const generateFollower = (name = Generator.name.tumblelog()) => {
+export const generateFollower = (name = Generator.name()) => {
   const follower = {
     name,
     following: true,

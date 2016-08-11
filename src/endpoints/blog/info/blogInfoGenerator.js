@@ -1,12 +1,12 @@
 import Generator from '../../../generators/generators';
 import * as Utils from '../../../utils/utils';
 
-export const generateBlogInfo = (name = Generator.name.tumblelog()) => {
+export const generateBlogInfo = (name = Generator.name()) => {
   const user = {
     title: name,
     posts: Utils.number(),
     updated: Utils.timestamp(),
-    description: Generator.description.template(),
+    description: Generator.description(),
     ask: Utils.boolean(),
     likes: Utils.number(),
     is_nsfw: Utils.boolean()

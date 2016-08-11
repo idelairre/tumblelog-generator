@@ -3,15 +3,15 @@ import * as Utils from '../../../utils/utils';
 
 export const generateUserInfo = name => {
   const user = {
-    title: Generator.title.template(),
+    title: Generator.title(),
     name: name,
     posts: Utils.number(),
     url: Utils.tumblrUrl(name),
     updated: Utils.timestamp(),
-    description: Generator.description.template(),
+    description: Generator.description(),
     is_nsfw: Utils.boolean(),
     ask: Utils.boolean(),
-    ask_page_title: Generator.title.template(),
+    ask_page_title: Generator.title(),
     followed: false,
     likes: Utils.number(),
     is_blocked_from_primary: false,
@@ -46,7 +46,7 @@ export const generateUserInfos = num => {
   return tumblelogs;
 }
 
-export const fetch = (name = Generator.name.tumblelog()) => {
+export const fetch = (name = Generator.name()) => {
   const response = {
     user: {
       blogs: [generateUserInfo(name)]

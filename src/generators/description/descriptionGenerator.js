@@ -1,5 +1,4 @@
 import * as Utils from '../../utils/utils';
-import generateTumblelogName from '../name/nameGenerator';
 import MarkovChain from 'markovchain';
 import followingCorpus from '../../dictionary/following.json';
 import pos from '../../corpus/pos.json';
@@ -28,16 +27,18 @@ export const markov = (following = followingCorpus) => {
   let seed = '';
 
   following.forEach(user => {
-    const desc = Utils.unescape(`${user.description}.`).trim();
+    const desc = `${user.description}.`.trim();
     seed += desc;
   });
   markovChain = markovChain || new MarkovChain(seed);
   return Utils.replaceRealInfo(markovChain.start(getRandomStarter).end(terminator).process());
 }
 
-export const generate = (type = 'markov') => {
+const generate = (type = 'markov') => {
   if (type === 'markov') {
     return markov();
   }
   return template();
 }
+
+export default generate;

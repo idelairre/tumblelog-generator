@@ -1,23 +1,22 @@
-import { isEqual, sortBy, union, without } from 'lodash';
 import fs from 'fs';
-import following from './dictionary/following.json';
+import pos from 'pos';
+import * as Utils from './utils/utils';
 
 export const formatDictionary = dictionary => {
   dictionary = dictionary.split('\n').map(word => {
     if (word.indexOf('/') !== -1) {
       return word.substring(0, word.indexOf('/'));
-    } else {
-      return word;
     }
+    return word;
   });
-  return without(dictionary, '', undefined);
+  return Utils.without(dictionary, '', undefined);
 };
 
-const formatNames = names => {
+export const formatNames = names => {
   return names.map(name => name.toLowerCase());
 };
 
-const generatePosHash = (input, property = false) => {
+export const generatePosHash = (input, property = false) => {
   const tagger = new pos.Tagger();
   const posHash = {
     'CC': [],
@@ -74,8 +73,6 @@ const generatePosHash = (input, property = false) => {
   return posHash;
 };
 
-// dictionary = _.union(dictionary, names, prefixes, ['anarcha', 'anhedonic', 'anarcho', 'alt', 'crit', 'duchamp', 'hauntology', 'goth', 'gothic', 'lenin', 'lit', 'miley', 'stoya']).sort();
-
 export const breakUp = (input, dictionary) => {
   if (!input) {
     console.log(`"argument ${input}" is not valid`);
@@ -94,15 +91,15 @@ export const breakUp = (input, dictionary) => {
     }
   }
 
-  answer = sortBy(_.uniq(answer), 'length').reverse();
+  answer = Utils.sortBy(Utils.uniq(answer), 'length').reverse();
 
   for (let i = 0; i < answer.length; i++) {
-    let word = answer[i];
+    const word = answer[i];
     if (typeof word !== 'undefined') {
       for (let j = 0; j < answer.length; j++) {
         const test = answer[j];
         if (typeof test !== 'undefined') {
-          if (word.includes(test) && !isEqual(word, test)) {
+          if (word.includes(test) && (word !== test)) {
             delete answer[j];
           }
         }
@@ -110,7 +107,7 @@ export const breakUp = (input, dictionary) => {
     }
   }
 
-  answer = _.without(answer, undefined);
+  answer = Utils.without(answer, undefined);
 
   let positions = [];
 
@@ -125,11 +122,11 @@ export const breakUp = (input, dictionary) => {
   });
 };
 
-export const generateCorpus = following => {
+export const generateCorpus = (following, dictionary) => {
   let corpus = [];
   following.forEach(user => {
-    if (typeof user !== 'undefined' && user.hasOwnProperty('name')) {
-      corpus = union(corpus, breakUp(user.name, dictionary));
+    if (typeof user !== 'undefined' && {}.hasOwnProperty.call(user, 'name')) {
+      corpus = Utils.union(corpus, breakUp(user.name, dictionary));
     }
   });
   return corpus;
@@ -138,9 +135,8 @@ export const generateCorpus = following => {
 export const readDictionary = (filename, encoding = 'utf8') => {
   if (filename.match(/\.json$/)) {
     return JSON.parse(fs.readFileSync(filename, encoding));
-  } else {
-    return fs.readFileSync(filename, encoding);
   }
+  return fs.readFileSync(filename, encoding);
 };
 
 export const saveDictionary = (filename, dictionary) => {

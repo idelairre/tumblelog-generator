@@ -1,5 +1,5 @@
 import { generateBlogInfo } from '../info/blogInfoGenerator';
-import { generateApiPost, randomType } from '../../../objects/post/postGenerator';
+import { generateApiPost } from '../../../objects/post/postGenerator';
 import * as Utils from '../../../utils/utils';
 
 export const generateBlogPosts = (name, query) => {

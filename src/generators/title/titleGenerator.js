@@ -1,10 +1,9 @@
-import { unescape, union } from 'lodash';
 import MarkovChain from 'markovchain';
 import * as Utils from '../../utils/utils';
 import followingCorpus from '../../dictionary/following.json';
 import pos from '../../corpus/pos.json';
 
-const BAD_TERMINATORS = union(pos.WRB, pos.CC, pos.IN, pos.DT, ['A', 'be', 'by', 'with', 'of', 'that', 'That', 'The', 'the', 'THE', 'a', 'an', 'and', 'as', 'I', 'in', 'In', 'im', 'is', 'Is', 'IS', 'on', 'so', 'to', 'To', 'TO', 'no', 'No', 'could', 'And', 'your', ',', 'for', 'from', '&', ':']);
+const BAD_TERMINATORS = Utils.union(pos.WRB, pos.CC, pos.IN, pos.DT, ['A', 'be', 'by', 'with', 'of', 'that', 'That', 'The', 'the', 'THE', 'a', 'an', 'and', 'as', 'I', 'in', 'In', 'im', 'is', 'Is', 'IS', 'on', 'so', 'to', 'To', 'TO', 'no', 'No', 'could', 'And', 'your', ',', 'for', 'from', '&', ':']);
 
 let markovChain;
 
@@ -28,7 +27,7 @@ export const markov = (following = followingCorpus) => {
   }
   if (seed.length === 0) {
     following.forEach(user => {
-      const desc = unescape(user.title).trim();
+      const desc = user.title.trim();
       seed += desc;
     });
   }
@@ -57,10 +56,12 @@ const checkEndWord = sentence => {
   return sentence;
 }
 
-export const generate = (type = 'markov') => {
+const generate = (type = 'markov') => {
   if (type === 'markov') {
     return markov();
   } else {
     return template();
   }
 }
+
+export default generate;

@@ -1,7 +1,7 @@
 import Generators from '../../generators/generators';
 import * as Utils from '../../utils/utils';
 
-export const generateTumblelog = (name = generateName()) => {
+export const generateTumblelog = (name = Generators.name()) => {
   const tumblelogDescription = generateDescriptionByMarkovChain();
   return {
     anonymous_asks: Utils.number({ min: 0, max: 1 }),
@@ -23,7 +23,7 @@ export const generateTumblelog = (name = generateName()) => {
     name: name,
     premium_partner: false,
     share_following: Utils.boolean(),
-    title: Generators.title.generate(),
+    title: Generators.title(),
     url: `http://${name}.tumblr.com`,
     uuid: `${name}.tumblr.com`
   };

@@ -1,5 +1,3 @@
-import Faker from 'faker';
-import { kebabCase, without } from 'lodash';
 import Generator from '../../generators/generators';
 import * as Utils from '../../utils/utils';
 
@@ -10,7 +8,7 @@ export const contentRating = () => {
 export const randomType = (api = false) => {
   let types = ['photo', 'photoset', 'quote', 'note', 'video', 'answer', 'link', 'chat'];
   if (api) {
-    return Utils.sample(without(types.concat(['text']), 'photoset', 'note'));
+    return Utils.sample(Utils.without(types.concat(['text']), 'photoset', 'note'));
   }
   return Utils.sample(types);
 };
@@ -61,8 +59,8 @@ export const generateMediaAsset = (size, filetype = 'jpg') => {
   return `http://${Utils.number({ min: 20, max: 99 })}.media.tumblr.com/tumblr_${Utils.uuid(19)}_${size}${size === 75 ? 'sq' : ''}.${filetype}`;
 }
 
-export const generatePostUrl = (tumblelog = Generator.name.tumblelog(), id = generateId(), title = Generator.title.template()) => {
-  return `${Utils.tumblrUuid(tumblelog)}/post/${id}/${kebabCase(title)}`;
+export const generatePostUrl = (tumblelog = Generator.name(), id = generateId(), title = Generator.title()) => {
+  return `${Utils.tumblrUuid(tumblelog)}/post/${id}/${Utils.kebabCase(title)}`;
 };
 
 export const generateTinyUrl = () => {
@@ -75,7 +73,7 @@ export const generatePhotos = (num = Utils.number({ min: 1, max: 5 })) => {
   const sizes = [{ width: 1280, height: 722 }, { width: 500, height: 282 }, { width: 400, height: 225 }, { width: 250, height: 141 }, { width: 100, height: 56 }, { width: 75, height: 75 }];
   for (let i = 0; i < num; i += 1) {
     const response = {
-      caption: Utils.sample(['', Generator.title.template()]),
+      caption: Utils.sample(['', Generator.title()]),
       alt_sizes: []
     };
     for (let j = 0; j < sizes.length; j += 1) {
@@ -94,7 +92,7 @@ export const generateTrail = (num = Utils.number({ min: 0, max: 2 })) => {
   for (let i = 0; i < num; i += 1) {
     const response = {
       blog: {
-        name: Generator.name.tumblelog(),
+        name: Generator.name(),
         active: Utils.boolean(),
         theme: {
           avatar_shape: Utils.sample(['circle', 'square']),
@@ -184,7 +182,7 @@ export const generateClientPost = (tumblelog = Geneartors.name.tumblelog()) => {
       'show_reddit': Utils.boolean(),
       'show_reporting_links': false,
       'tumblelog_name': tumblelog,
-      'twitter_username': `@${Generator.name.tumblelog()}`
+      'twitter_username': `@${Generator.name()}`
     },
     'sponsered': '',
     'tags': Utils.words(),
@@ -214,11 +212,11 @@ export const generateClientPost = (tumblelog = Geneartors.name.tumblelog()) => {
   return post;
 };
 
-export const generateApiPost = (tumblelog = Generator.name.tumblelog(), options = { type: false, state: 'published', format: false, followed: true }) => {
+export const generateApiPost = (tumblelog = Generator.name(), options = { type: false, state: 'published', format: false, followed: true }) => {
   const post = {
     blog_name: tumblelog,
     id: generateId(),
-    post_url: Faker.internet.url(),
+    post_url: Utils.url(),
     type: options.type || randomType(true),
     date: Utils.past(),
     timestamp: Utils.timestamp(),
@@ -250,7 +248,7 @@ const appendTypeAttributes = post => {
   if (post.type === 'photo' || post.type === 'quote') {
     Object.assign(post, {
       source_url: generatePostUrl(post.blog_name, post.id),
-      source_title: Generator.name.tumblelog()
+      source_title: Generator.name()
     });
   }
   if (post.type === 'photo') {
@@ -262,27 +260,27 @@ const appendTypeAttributes = post => {
     });
   } else if (post.type === 'text') {
     Object.assign(post, {
-      title: Faker.lorem.sentence(),
-      body: Faker.lorem.paragraph()
+      title: Utils.sentence(),
+      body: Utils.paragraph()
     });
   } else if (post.type === 'quote') {
-    const source = Generator.name.tumblelog();
+    const source = Generator.name();
     Object.assign(post, {
-      text: Faker.lorem.sentence(),
-      source: `<a href="${Faker.internet.url()}" target="_blank">${source}</a>`
+      text: Utils.sentence(),
+      source: `<a href="${Utils.url()}" target="_blank">${source}</a>`
     });
     if (Utils.boolean()) {
-      const source2 = Generator.name.tumblelog();
-      post.source += `(via <a href="${Faker.internet.url()}" target="_blank">${source2}</a>`;
+      const source2 = Generator.name();
+      post.source += `(via <a href="${Utils.url()}" target="_blank">${source2}</a>`;
     }
   } else if (post.type === 'link') {
     Object.assign(post, {
-      url: Faker.internet.url(),
-      author: Generator.name.tumblelog(),
-      excerpt: Generator.title.template(),
-      publisher: Faker.internet.url(),
+      url: Utils.url(),
+      author: Generator.name(),
+      excerpt: Generator.title(),
+      publisher: Utils.url(),
       photos: generatePhotos(),
-      description: Faker.lorem.sentence()
+      description: Utils.sentence()
     }); // TODO: write function that wraps text in blockquotes and p tags
   } else if (post.type === 'chat') {
     Object.assign(post, {
@@ -292,20 +290,20 @@ const appendTypeAttributes = post => {
   } else if (post.type === 'audio') {
     const player = generateAudioPlayer();
     Object.assign(post, {
-      caption: Faker.lorem.sentence(),
+      caption: Utils.sentence(),
       embed: player,
       player: player,
       plays: Utils.number(),
-      audio_url: Faker.internet.url(), // TODO: look at the way these are generated for soundcloud
-      audio_source_url: Faker.internet.url(),
+      audio_url: Utils.url(), // TODO: look at the way these are generated for soundcloud
+      audio_source_url: Utils.url(),
       is_external: Utils.boolean(),
       audio_type: 'soundcloud',
-      provider_url: Faker.internet.url()
+      provider_url: Utils.url()
     });
   } else if (post.type === 'video') {
     Object.assign(post, {
-      summary: Generator.title.template(),
-      thumbnail_url: Faker.internet.url(),
+      summary: Generator.title(),
+      thumbnail_url: Utils.url(),
       video_type: 'youtube',
       html5_capable: true,
       player: generateVideoPlayer(),
@@ -314,12 +312,12 @@ const appendTypeAttributes = post => {
       thumbnail_height: 360
     });
   } else if (post.type === 'answer') {
-    const asker = Generator.name.tumblelog();
+    const asker = Generator.name();
     Object.assign(post, {
       asking_name: asker,
       asking_url: Utils.tumblrUrl(asker),
-      question: Faker.lorem.sentence(),
-      answer: Faker.lorem.sentence() // TODO: wrap this in tags and shit
+      question: Utils.sentence(),
+      answer: Utils.sentence() // TODO: wrap this in tags and shit
     });
   }
   return post;

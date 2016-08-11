@@ -4,7 +4,7 @@ import prefixes from '../../corpus/prefixes.json';
 
 const flavor = tumblelog => {
   const seperators = ['-', '_', '', '-and-'];
-  let modifier = Utils.sample(corpus.concat(['girl', 'asexual', 'buddy', 'hoe', 'biddy', 'demonic', 'anarchy', 'left', 'succubus', 'soft', 'rude', 'grunge', 'slut', 'blood', 'minus', 'communist', 'loser', 'mermaid', 'fox', 'scorpio', 'queer', 'antifa', '69', 'trans', 'supa', 'slayin', 'words', 'poly']));
+  let modifier = Utils.sample(corpus.concat(['girl', 'asexual', 'buddy', 'hoe', 'biddy', 'demonic', 'anarchy', 'left', 'lit', 'succubus', 'soft', 'rude', 'grunge', 'slut', 'blood', 'minus', 'communist', 'loser', 'mermaid', 'fox', 'scorpio', 'queer', 'antifa', '69', 'trans', 'supa', 'slayin', 'words', 'poly']));
   const rand = Utils.number({
     min: 0,
     max: 7
@@ -29,6 +29,8 @@ const flavor = tumblelog => {
   }
 }
 
-export const tumblelog = () => {
+const generate = () => {
   return flavor(Utils.sample(corpus));
 }
+
+export default generate;

@@ -8,15 +8,14 @@ function wrapResponse(data, callback) {
       return Promise.reject(Utils.generateError(this.returnErrors));
     }
     return Promise.resolve(data.response);
+  }
+  if (!callback || typeof callback !== 'function') {
+    throw new Error('function expects a callback');
+  }
+  if (this.returnErrors) {
+    callback(Utils.generateError(this.returnErrors));
   } else {
-    if (!callback || typeof callback !== 'function') {
-      throw new Error('function expects a callback');
-    }
-    if (this.returnErrors) {
-      callback(Utils.generateError(this.returnErrors));
-    } else {
-      callback(null, data.response);
-    }
+    callback(null, data.response);
   }
 }
 
