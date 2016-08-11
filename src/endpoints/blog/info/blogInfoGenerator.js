@@ -20,14 +20,14 @@ export const generate = (name = Generator.name()) => {
 export const generateBlogInfos = num => {
   const tumblelogs = [];
   for (let i = 0; i < num; i += 1) {
-    tumblelogs.push(generateBlogInfo());
+    tumblelogs.push(generate());
   }
   return tumblelogs;
 };
 
 export const fetch = name => {
   const response = {
-    blog: generateBlogInfo(name)
+    blog: generate(name)
   };
   return Utils.generateResponse(response);
 };

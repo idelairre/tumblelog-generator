@@ -3,7 +3,6 @@ import Generator from '../generators/generators';
 import posCorpus from '../corpus/pos.json';
 import following from '../dictionary/following.json';
 import mersenne from './mersenne';
-import './polyfill';
 
 export const boolean = () => {
   return Boolean(number(1));

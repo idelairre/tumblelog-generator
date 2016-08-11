@@ -79,6 +79,16 @@ const oauthRequest = query => {
 const PostSource = ModuleInjector({
   '../lib/oauthRequest': { oauthRequest }
 }).default;
+
+const query = {
+  next_offset: 0,
+  limit: 10,
+  filter_nsfw: true
+};
+
+PostSource.fetch(query).then(response => {
+  console.log(response);  // PostSource.fetch() calls oauthRequest() with the above query params and parses the response, multiple requests with the same params will return the same posts. Neat
+})
 ```
 
 Now you have a fixture that generates its responses from the same pool of posts as if it were a snapshot of a real user's dashboard at a given time.

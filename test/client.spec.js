@@ -23,7 +23,7 @@ describe('Client', () => {
     expect(request instanceof Promise).toBe(true);
 
     const response = await client.blogInfo('banshee-hands');
-    console.log(response);
+
     expect(response.blog).toBeDefined();
     done();
   });
