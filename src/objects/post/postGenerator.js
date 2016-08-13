@@ -25,6 +25,19 @@ export const randomFormat = () => {
   return Utils.sample(['html', 'markdown']);
 };
 
+export const generateDialogue = (num = Utils.number({ min: 1, max: 5 })) => {
+  const dialogue = [];
+  for (let i = 0; i < num; i += 1) {
+    const name = Generator.name();
+    dialogue.push({
+      label: name,
+      name: name,
+      phrase: Generator.title()
+    });
+  }
+  return dialogue;
+}
+
 export const generateId = () => {
   const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   let id = '1';
@@ -60,8 +73,8 @@ export const generateMediaAsset = (size, filetype = 'jpg') => {
 }
 
 export const generatePostUrl = (tumblelog = Generator.name(), id = generateId(), title = Generator.title()) => {
-  return `${Utils.tumblrUuid(tumblelog)}/post/${id}/${Utils.kebabCase(title)}`;
-};
+  return `${Utils.tumblrUuid(tumblelog)}/post/${id}/${title.replace(/\W+/g, '-').toLowerCase()}`;
+}
 
 export const generateTinyUrl = () => {
   const end = Utils.uuid(8);
@@ -142,7 +155,7 @@ export const flavor = tumblelog => {
   return modifier + tumblelog;
 };
 
-export const generateClientPost = (tumblelog = Geneartors.name.tumblelog()) => {
+export const generateClientPost = (tumblelog = Geneartors.name()) => {
   const id = generateId();
   const post = {
     'accepts-answers': Utils.boolean(),
@@ -255,8 +268,7 @@ const appendTypeAttributes = post => {
     Object.assign(post, {
       image_permalink: '',
       photos: generatePhotos(),
-      caption: '',
-      summary: ''
+      caption: Utils.wrappedSentence()
     });
   } else if (post.type === 'text') {
     Object.assign(post, {
@@ -280,12 +292,12 @@ const appendTypeAttributes = post => {
       excerpt: Generator.title(),
       publisher: Utils.url(),
       photos: generatePhotos(),
-      description: Utils.sentence()
-    }); // TODO: write function that wraps text in blockquotes and p tags
+      description: Utils.sentence() // TODO: write function that wraps text in blockquotes and p tags
+    });
   } else if (post.type === 'chat') {
     Object.assign(post, {
-      body: '',
-      dialogue: [] // TODO: implement function to create fake dialogue
+      body: Generator.description(),
+      dialogue: generateDialogue()
     });
   } else if (post.type === 'audio') {
     const player = generateAudioPlayer();

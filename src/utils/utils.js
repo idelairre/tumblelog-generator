@@ -70,8 +70,8 @@ export const sortBy = (array, property) => {
 
 export const kebabCase = string => {
   const KEBAB_REGEX = /[A-Z\u00C0-\u00D6\u00D8-\u00DE]/g;
-  return str.replace(KEBAB_REGEX, match => {
-    return '-' + match.toLowerCase();
+  return string.replace(KEBAB_REGEX, match => {
+    return `-${match.toLowerCase()}`;
   });
 }
 
@@ -147,7 +147,8 @@ export const uuid = (length = false) => {
 };
 
 export const words = (length = number(12)) => {
-  return Generator.title().split(' ').slice(0, length);
+  let words = Generator.title().split(' ').slice(0, length);
+  return words.map(word => word.replace(/\W/g, ''));
 };
 
 export const without = (target, ...args) => {
@@ -159,6 +160,10 @@ export const without = (target, ...args) => {
     return item;
   });
 };
+
+export const wrappedSentence = () => {
+  return `<p>${sentence()}<\\/p>`;
+}
 
 let names = [];
 
