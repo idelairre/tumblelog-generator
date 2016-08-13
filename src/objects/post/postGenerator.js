@@ -32,7 +32,7 @@ export const generateDialogue = (num = Utils.number({ min: 1, max: 5 })) => {
     dialogue.push({
       label: name,
       name: name,
-      phrase: Generator.title()
+      phrase: Generator.description() // NOTE: these results are crappy, maybe pull from a corpus of chat logs?
     });
   }
   return dialogue;
@@ -289,10 +289,10 @@ const appendTypeAttributes = post => {
     Object.assign(post, {
       url: Utils.url(),
       author: Generator.name(),
-      excerpt: Generator.title(),
+      excerpt: Generator.description(),
       publisher: Utils.url(),
       photos: generatePhotos(),
-      description: Utils.sentence() // TODO: write function that wraps text in blockquotes and p tags
+      description: Utils.wrappedParagraph() // TODO: write function that wraps text in blockquotes and p tags
     });
   } else if (post.type === 'chat') {
     Object.assign(post, {

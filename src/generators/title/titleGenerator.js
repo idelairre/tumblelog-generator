@@ -23,7 +23,7 @@ export const markov = (following = followingCorpus) => {
   }
 
   const terminator = sentence => {
-    return sentence.split(' ').length >= 7 || sentence[sentence.length - 1].includes(BAD_TERMINATORS);
+    return sentence.split(' ').length >= 10 || sentence[sentence.length - 1].includes(BAD_TERMINATORS);
   }
   if (seed.length === 0) {
     following.forEach(user => {

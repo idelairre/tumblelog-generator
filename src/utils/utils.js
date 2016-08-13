@@ -123,8 +123,9 @@ export const url = () => {
   return `${protocol}${domain}${domainSuffix}`;
 };
 
-export const union = (...args) => {
-  return [].concat(...args).sort().filter((item, post, arr) => {
+export const union = (target, ...args) => {
+  const array = target.concat(...args);
+  return array.filter((item, post, arr) => {
     return !pos || item !== arr[pos - 1];
   });
 };
@@ -147,7 +148,7 @@ export const uuid = (length = false) => {
 };
 
 export const words = (length = number(12)) => {
-  let words = Generator.title().split(' ').slice(0, length);
+  const words = without(Generator.title().split(' ').slice(0, length), '');
   return words.map(word => word.replace(/\W/g, ''));
 };
 
@@ -163,6 +164,10 @@ export const without = (target, ...args) => {
 
 export const wrappedSentence = () => {
   return `<p>${sentence()}<\\/p>`;
+}
+
+export const wrappedParagraph = () => {
+  return `<blockquote><p>${paragraph()}<\\/p><\\/blockquote>`;
 }
 
 let names = [];

@@ -1,7 +1,5 @@
 import { Generator } from '../src/index';
 
-console.log(Generator.posts.generateApiPost('luksfoks', { type: 'chat' }));
-
 describe('Generator', () => {
   describe('posts', () => {
     it ('should work', () => {
