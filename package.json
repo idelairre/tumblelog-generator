@@ -12,7 +12,7 @@
   "scripts": {
     "clean": "rimraf lib dist",
     "lint": "eslint src test",
-    "start": "babel-node src/test.js",
+    "test:node": "babel-node test/node.spec.js",
     "test": "karma start karma/karma.config.development.js",
     "test:teamcity": "karma start karma/karma.config.production.js",
     "build:umd": "webpack src/index.js --config webpack/webpack.config.development.js",
@@ -42,6 +42,7 @@
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "eslint": "^1.7.1",
+    "jasmine": "^2.4.1",
     "jasmine-core": "^2.4.1",
     "json-loader": "^0.5.4",
     "karma": "^0.13.9",

@@ -116,8 +116,7 @@ export const breakUp = (input, dictionary) => {
     const pos = input.indexOf(word);
     positions.push({ word, pos });
   }
-  positions = Utils.sortBy(positions, 'pos');
-  return positions.map(entry => {
+  return Utils.sortBy(positions, 'pos').map(entry => {
     return entry.word;
   });
 };

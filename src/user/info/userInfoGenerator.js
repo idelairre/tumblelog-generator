@@ -1,5 +1,5 @@
-import Generator from '../../../generators/generators';
-import * as Utils from '../../../utils/utils';
+import Generator from '../../generators/generators';
+import * as Utils from '../../utils/utils';
 
 export const generateUserInfo = name => {
   const user = {

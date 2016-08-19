@@ -10,6 +10,7 @@ module.exports = {
   frameworks: ['jasmine'],
   browsers: ['Chrome'],
   files: ['./test/**/*.spec.js'],
+  exclude: ['./test/**/node.spec.js'],
   preprocessors: {
     './test/**/*.spec.js': ['webpack']
   },

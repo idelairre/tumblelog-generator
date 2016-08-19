@@ -1,5 +1,5 @@
-import Blog from './endpoints/blog/blog';
-import User from './endpoints/user/user';
+import Blog from './blog/blog';
+import User from './user/user';
 import * as Utils from './utils/utils';
 
 function wrapResponse(data, callback) {
@@ -20,15 +20,10 @@ function wrapResponse(data, callback) {
 }
 
 class Client {
-  returnErrors = false;
-  returnPromises = false;
-  user = false;
-
-  constructor(options) {
-    options = Object.assign({ returnPromises: false, user: false, returnErrors: false }, options);
-    this.returnErrors = options.returnErrors;
-    this.returnPromises = options.returnPromises;
-    this.user = options.user;
+  constructor({ returnPromises = false, user = false, returnErrors = false } = {}) {
+    this.returnErrors = returnErrors;
+    this.returnPromises = returnPromises;
+    this.user = user;
   }
 
   blogInfo(name, callback) {
@@ -36,13 +31,25 @@ class Client {
     return wrapResponse.call(this, data, callback);
   }
 
+  blogLikes(name, options, callback) {
+    return blogPosts.apply(this, arguments);
+  }
+
+  blogSubmissions(name, options, callback) {
+
+  }
+
   blogPosts(name, options, callback) {
-    const data = Blog.posts.fetch(name, options);
+    const opts = (typeof options === 'function' && typeof callback === 'undefined' ? {} : options);
+    callback = (typeof options === 'function' && typeof callback === 'undefined' ? options : callback);
+    const data = Blog.posts.fetch(name, opts);
     return wrapResponse.call(this, data, callback);
   }
 
-  blogFollowers(name, callback) {
-    const data = Blog.followers.fetch(name);
+  blogFollowers(name, options, callback) {
+    const opts = (typeof options === 'function' && !callback ? {} : options);
+    callback = (typeof options === 'function' && !callback ? options : callback);
+    const data = Blog.followers.fetch(opts);
     return wrapResponse.call(this, data, callback);
   }
 
@@ -52,16 +59,28 @@ class Client {
   }
 
   userDashboard(options, callback) {
+    if (typeof options === 'function' && !callback) {
+      callback = options;
+      options = undefined;
+    }
     const data = User.dashboard.fetch(options);
     return wrapResponse.call(this, data, callback);
   }
 
   userLikes(options, callback) {
+    if (typeof options === 'function' && !callback) {
+      callback = options;
+      options = undefined;
+    }
     const data = User.likes.fetch(options);
     return wrapResponse.call(this, data, callback);
   }
 
   userFollowing(options, callback) {
+    if (typeof options === 'function' && !callback) {
+      callback = options;
+      options = undefined;
+    }
     const data = User.following.fetch(options);
     return wrapResponse.call(this, data, callback);
   }

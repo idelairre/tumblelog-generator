@@ -1,4 +1,5 @@
 import { Generator } from '../src/index';
+import BlogGenerator from '../src/blog/blog';
 
 describe('Generator', () => {
   describe('posts', () => {
@@ -8,7 +9,7 @@ describe('Generator', () => {
     });
 
     it ('should only generate posts of the specified type if type param is passed', () => {
-      const post = Generator.posts.generateApiPost('luksfoks', { type: 'quote' });
+      const post = Generator.posts.generateApiPost({ type: 'quote' });
       expect(post.type).toMatch(/quote/);
     });
   });

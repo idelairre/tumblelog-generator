@@ -225,22 +225,22 @@ export const generateClientPost = (tumblelog = Geneartors.name()) => {
   return post;
 };
 
-export const generateApiPost = (tumblelog = Generator.name(), options = { type: false, state: 'published', format: false, followed: true }) => {
+export const generateApiPost = (query = {}) => {
   const post = {
-    blog_name: tumblelog,
+    blog_name: query.blog_name || Generator.name(),
     id: generateId(),
     post_url: Utils.url(),
-    type: options.type || randomType(true),
+    type: query.type || randomType(true),
     date: Utils.past(),
     timestamp: Utils.timestamp(),
-    state: options.state || randomState(),
-    format: options.format || randomFormat(),
+    state: query.state || randomState(),
+    format: query.format || randomFormat(),
     reblog_key: Utils.uuid(8),
     tags: Utils.words(),
     short_url: generateTinyUrl(),
     recommended_source: null,
     recommended_color: null,
-    followed: options.followed || Utils.boolean(),
+    followed: query.followed || Utils.boolean(),
     highlighted: [],
     liked: Utils.boolean(),
     note_count: Utils.number(),
@@ -250,7 +250,7 @@ export const generateApiPost = (tumblelog = Generator.name(), options = { type: 
   };
   if (Utils.boolean()) {
     post.reblog = {
-      tree_html: '',
+      tree_html: '', // figure out what this looks like
       comment: ''
     };
   }

@@ -1,5 +1,5 @@
-import Generator from '../../../generators/generators';
-import * as Utils from '../../../utils/utils';
+import Generator from '../../generators/generators';
+import * as Utils from '../../utils/utils';
 
 export const generate = (name = Generator.name()) => {
   const user = {
@@ -17,12 +17,8 @@ export const generate = (name = Generator.name()) => {
   return user;
 };
 
-export const generateBlogInfos = num => {
-  const tumblelogs = [];
-  for (let i = 0; i < num; i += 1) {
-    tumblelogs.push(generate());
-  }
-  return tumblelogs;
+export const generateMany = num => {
+  return new Array(num).fill(generate());
 };
 
 export const fetch = name => {

@@ -32,7 +32,9 @@ describe('Client', () => {
     const client = new Client({
       returnPromises: false
     });
-    expect(function () { client.blogInfo('banshee-hands') }).toThrow(new Error('function expects a callback'));
+    expect(function () {
+      client.blogInfo('banshee-hands');
+    }).toThrow(new Error('function expects a callback'));
   });
 
   it ('should throw an error if "returnErrors" is enabled', done => {
@@ -52,7 +54,178 @@ describe('Client', () => {
     });
     client.blogInfo('banshee-hands', (error, data) => {
       expect(error).toBeDefined();
+      expect(error.meta).toMatch(/401/);
       done();
+    });
+  });
+
+  describe('Blog methods', () => {
+    describe('blogPosts', () => {
+      it ('should return a response object containing blog info and an array of posts', done => {
+        const client = new Client();
+        client.blogPosts('banshee-hands', (error, data) => {
+          expect(data).toBeDefined();
+          expect(data.posts).toBeDefined();
+          expect(data.posts.length).toEqual(10);
+          expect(data.blog).toBeDefined();
+          done();
+        });
+      });
+
+      it ('should accept query params', done => {
+        const query = {
+          limit: 25,
+          type: 'quote'
+        };
+        const client = new Client();
+        client.blogPosts('banshee-hands', query, (error, data) => {
+          expect(data).toBeDefined();
+          expect(data.posts).toBeDefined();
+          expect(data.posts.length).toEqual(query.limit);
+          data.posts.forEach(post => expect(post.type).toMatch(/quote/));
+          done();
+        });
+      });
+
+      it ('should only return posts from designated blog', done => {
+        const client = new Client();
+        client.blogPosts('banshee-hands', (error, data) => {
+          expect(data).toBeDefined();
+          expect(data.posts).toBeDefined();
+          expect(data.blog).toBeDefined();
+          expect(data.blog.title).toMatch(/banshee-hands/);
+          data.posts.forEach(post => expect(post.blog_name).toMatch(/banshee-hands/));
+          done();
+        });
+      });
+    });
+
+    describe('blogLikes', () => {
+      it ('should only return "liked" posts from the designated blog', done => {
+        const client = new Client();
+        client.blogPosts('hypocrite-lecteur', (error, data) => {
+          data.posts.forEach(post => expect(post.blog_name).toMatch(/hypocrite-lecteur/));
+          done();
+        });
+      });
+    });
+
+    describe('blogFollowers', () => {
+      it ('should return an array of followers', done => {
+        const client = new Client();
+        client.blogFollowers('hypocrite-lecteur', (error, data) => {
+          expect(data.users).toBeDefined();
+          done();
+        });
+      });
+
+      it ('should accept parameters', done => {
+        const query = {
+          limit: 25
+        };
+        const client = new Client();
+        client.blogFollowers('hypocrite-lecteur', query, (error, data) => {
+          expect(data.users.length).toEqual(query.limit);
+          done();
+        });
+      });
+    });
+
+    describe('blogSubmissions', () => {
+
+    });
+
+    describe('blogDrafts', () => {
+
+    });
+
+    describe('blogQueue', () => {
+
+    });
+  });
+
+  describe('User methods', () => {
+    describe('userInfo', () => {
+      it ('should work', done => {
+        const client = new Client({
+          user: 'luksfoks'
+        });
+
+        client.userInfo((err, data) => {
+          done();
+        });
+      });
+    });
+
+    describe('userDashboard', () => {
+      it ('should return an array of posts', done => {
+        const client = new Client({
+          user: 'luksfoks'
+        });
+
+        client.userDashboard((err, data) => {
+          done();
+        });
+      });
+
+      it ('should accept options', done => {
+        const query = {
+          limit: 50
+        };
+        const client = new Client({
+          user: 'luksfoks'
+        });
+
+        client.userDashboard(query, (err, data) => {
+          done();
+        });
+      });
+    });
+
+    describe('userLikes', () => {
+      it ('should return an array of liked posts', done => {
+        const client = new Client({
+          user: 'luksfoks'
+        });
+        client.userLikes((err, data) => {
+          done();
+        });
+      });
+
+      it ('should accept options', done => {
+        const query = {
+          limit: 50
+        };
+        const client = new Client({
+          user: 'luksfoks'
+        });
+        client.userLikes(query, (err, data) => {
+          done();
+        });
+      });
+    });
+
+    describe('userFollowing', () => {
+      it ('should return an array of users', done => {
+        const client = new Client({
+          user: 'luksfoks'
+        });
+        client.userFollowing((err, data) => {
+          done();
+        });
+      });
+
+      it ('should accept options', done => {
+        const query = {
+          limit: 50
+        };
+        const client = new Client({
+          user: 'luksfoks'
+        });
+        client.userFollowing(query, (err, data) => {
+          done();
+        });
+      });
     });
   });
 });
