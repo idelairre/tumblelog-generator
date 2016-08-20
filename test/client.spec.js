@@ -79,8 +79,6 @@ describe('Client', () => {
     const followers = await client.blogFollowers('banshee-hands', { limit: 10 });
     expect(cache.followers.slice(0, 10)).toEqual(followers.users);
 
-    console.log(followers);
-
     const likes = await client.blogLikes('banshee-hands', { limit: 10 });
     expect(cache.likes.slice(0, 10)).toEqual(likes.posts);
   });
@@ -157,17 +155,17 @@ describe('Client', () => {
       });
     });
 
-    describe('blogSubmissions', () => {
-
-    });
-
-    describe('blogDrafts', () => {
-
-    });
-
-    describe('blogQueue', () => {
-
-    });
+    // describe('blogSubmissions', () => {
+    //
+    // });
+    //
+    // describe('blogDrafts', () => {
+    //
+    // });
+    //
+    // describe('blogQueue', () => {
+    //
+    // });
   });
 
   describe('User methods', () => {

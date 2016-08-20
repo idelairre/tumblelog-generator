@@ -12,7 +12,7 @@
   "scripts": {
     "clean": "rimraf lib dist",
     "lint": "eslint src test",
-    "test:node": "babel-node test/node.spec.js",
+    "test:node": "babel-node test/tumblr.spec.js",
     "test": "karma start karma/karma.config.development.js",
     "test:teamcity": "karma start karma/karma.config.production.js",
     "build:umd": "webpack src/index.js --config webpack/webpack.config.development.js",
@@ -47,6 +47,7 @@
     "json-loader": "^0.5.4",
     "karma": "^0.13.9",
     "karma-chrome-launcher": "^1.0.1",
+    "karma-firefox-launcher": "^1.0.0",
     "karma-htmlfile-reporter": "latest",
     "karma-jasmine": "^0.3.8",
     "karma-phantomjs-launcher": "latest",

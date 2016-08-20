@@ -8,9 +8,9 @@ module.exports = {
   singleRun: true,
   colors: true,
   frameworks: ['jasmine'],
-  browsers: ['Chrome'],
+  browsers: ['Firefox'],
   files: ['./test/**/*.spec.js'],
-  exclude: ['./test/**/node.spec.js'],
+  exclude: ['./test/**/tumblr.spec.js'],
   preprocessors: {
     './test/**/*.spec.js': ['webpack']
   },

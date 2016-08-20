@@ -35,13 +35,11 @@ export default class Blog {
   }
 
   getLikes(query) {
-    query = Object.assign({ limit: 10, offset: 0 }, query);
+    query = Object.assign({ limit: 10, offset: 0}, query);
     const likes = query.type ? this.likes.every(post => {
       return post.type === query.type;
     }).slice(query.offset, query.offset + query.limit) : this.likes.slice(query.offset, query.offset + query.limit);
-    return Utils.generateResponse({
-      likes
-    });
+    return Utils.generateResponse({ likes });
   }
 
   getPosts(query) {
@@ -49,10 +47,6 @@ export default class Blog {
     const posts = query.type ? this.posts.every(post => {
       return post.type === query.type;
     }).slice(query.offset, query.offset + query.limit) : this.posts.slice(query.offset, query.offset + query.limit);
-    return Utils.generateResponse({
-      blog: this.info,
-      posts,
-      total_posts: this.posts.length
-     });
+    return Utils.generateResponse({ blog: this.info, posts, total_posts: this.posts.length });
   }
 }

@@ -11,6 +11,7 @@ export const generateMany = query => {
   query = Object.assign({ limit: 10 }, query);
   return Utils.populate(new Array(query.limit), generate(query));
 };
+
 export const fetch = query => {
   const response = {
     posts: generateMany(query)
