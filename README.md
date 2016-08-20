@@ -52,7 +52,7 @@ console.log(posts); // { meta: '200', msg: 'OK', response: { blog: ... posts: [.
 The ```Generators``` object is deeply nested so you can also import it via its endpoint path. Also note that you can pass whatever arguments you could pass to the tumblr api client to generator functions (with the exception that offset is meaningless)
 
 ```
-import BlogGenerator from 'tumblr-faker/src/endpoints/blog/blog'; // this will be shortened in the future
+import BlogGenerator from 'tumblr-faker/src/blog/blog'; // this will be shortened in the future
 
 console.log(BlogGenerator.posts.fetch()); // same response as above
 console.log(BlogGenerator.posts.fetch({ limit: 25, type: 'photo' })); // returns an ajax response object containing an array of 25 posts of type 'photo'
@@ -63,16 +63,17 @@ console.log(BlogGenerator.posts.generate({ type: 'quote', limit: 1 })); // retur
 Here is an example pulled from my project TumblrFox using the webpack loader "inject". (Pardon the use of the forbidden lodash.)
 
 ```
-import { every } from 'lodash';
-import { Generators } from 'tumblr-faker';
+import { Generator } from 'tumblr-faker';
 import ModuleInjector from 'inject!../../source/postSource';
 
-const postsFixture = Generators.user.dashboard.generate(100);
+const user = new Generator.user({
+  posts: 100,
+  likes: 0,
+  following: 0
+});
 
 const oauthRequest = query => {
-  const posts = query.type ? every(postsFixture, {
-    type: query.type
-  }).slice(query.offset, query.offset + query.limit) : postsFixture.slice(query.offset, query.offset + query.limit);
+  const posts = user.getDashboard(query);
   return Promise.resolve({ posts });
 };
 

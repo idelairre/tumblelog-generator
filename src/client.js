@@ -28,8 +28,15 @@ class Client {
     this.returnErrors = returnErrors;
     this.returnPromises = returnPromises;
     this.user = user;
-    this.__cache = {
-      blogs: {}
+    if (this.persistData) {
+      this.__cache = {
+        blogs: {}
+      };
+      this.__cache.user = new Generator.user({
+        posts: 100,
+        likes: 50,
+        following: 25
+      });
     }
   }
 
@@ -120,7 +127,12 @@ class Client {
       callback = options;
       options = undefined;
     }
-    const data = User.dashboard.fetch(options);
+    let data;
+    if (this.persistData) {
+      data = this.__cache.user.getDashboard(options);
+    } else {
+      data = User.dashboard.fetch(options);
+    }
     return wrapResponse.call(this, data, callback);
   }
 
@@ -129,7 +141,12 @@ class Client {
       callback = options;
       options = undefined;
     }
-    const data = User.likes.fetch(options);
+    let data;
+    if (this.persistData) {
+      data = this.__cache.user.getLikes(options);
+    } else {
+      data = User.likes.fetch(options)
+    }
     return wrapResponse.call(this, data, callback);
   }
 

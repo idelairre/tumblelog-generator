@@ -1,15 +1,15 @@
 import blog from './blog/blog';
-import dashboard from './dashboard/dashboard';
 import description from './description/descriptionGenerator';
 import name from './name/nameGenerator';
 import * as posts from '../objects/post/postGenerator';
 import * as tumblelog from '../objects/tumblelog/tumblelogGenerator';
 import title from './title/titleGenerator';
+import user from './user/user';
 
 const Generator = {
   name,
   blog,
-  dashboard,
+  user,
   description,
   title,
   posts,

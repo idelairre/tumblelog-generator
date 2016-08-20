@@ -70,11 +70,15 @@ export const generateStaticAsset = (filetype = 'jpg') => {
 
 export const generateMediaAsset = (size, filetype = 'jpg') => {
   return `http://${Utils.number({ min: 20, max: 99 })}.media.tumblr.com/tumblr_${Utils.uuid(19)}_${size}${size === 75 ? 'sq' : ''}.${filetype}`;
-}
+};
+
+export const generatePostSlug = (title = Generator.title()) => {
+  return title.replace(/\W+/g, '-').toLowerCase();
+};
 
 export const generatePostUrl = (tumblelog = Generator.name(), id = generateId(), title = Generator.title()) => {
-  return `${Utils.tumblrUuid(tumblelog)}/post/${id}/${title.replace(/\W+/g, '-').toLowerCase()}`;
-}
+  return `${Utils.tumblrUuid(tumblelog)}/post/${id}/${generatePostSlug(title)}`;
+};
 
 export const generateTinyUrl = () => {
   const end = Utils.uuid(8);
@@ -226,18 +230,23 @@ export const generateClientPost = (tumblelog = Geneartors.name()) => {
 };
 
 export const generateApiPost = (query = {}) => {
+  const id = generateId();
+  const title = query.title || Generator.title();
+  const name = query.blog_name || Generator.name();
   const post = {
-    blog_name: query.blog_name || Generator.name(),
-    id: generateId(),
-    post_url: Utils.url(),
+    blog_name: name,
+    id,
+    post_url: generatePostUrl(name, id, title),
+    slug: generatePostSlug(title),
     type: query.type || randomType(true),
     date: Utils.past(),
     timestamp: Utils.timestamp(),
     state: query.state || randomState(),
-    format: query.format || randomFormat(),
+    format: query.format || 'html',
     reblog_key: Utils.uuid(8),
     tags: Utils.words(),
     short_url: generateTinyUrl(),
+    summary: Generator.description(),
     recommended_source: null,
     recommended_color: null,
     followed: query.followed || Utils.boolean(),
@@ -258,18 +267,21 @@ export const generateApiPost = (query = {}) => {
 };
 
 const appendTypeAttributes = post => {
-  if (post.type === 'photo' || post.type === 'quote') {
-    Object.assign(post, {
-      source_url: generatePostUrl(post.blog_name, post.id),
-      source_title: Generator.name()
-    });
-  }
+  // if (post.type === 'photo' || post.type === 'quote') {
+  //   Object.assign(post, {
+  //     source_url: generatePostUrl(post.blog_name, post.id),
+  //     source_title: Generator.name()
+  //   });
+  // }
   if (post.type === 'photo') {
     Object.assign(post, {
-      image_permalink: '', // find a way to generate a realistic one of these
+      // image_permalink: '', // find a way to generate a realistic one of these
       photos: generatePhotos(),
       caption: Utils.wrappedSentence()
     });
+    if (Utils.boolean()) {
+      post.photoset_layout = '111';
+    }
   } else if (post.type === 'text') {
     Object.assign(post, {
       title: Utils.sentence(),
@@ -279,7 +291,9 @@ const appendTypeAttributes = post => {
     const source = Generator.name();
     Object.assign(post, {
       text: Utils.sentence(),
-      source: `<a href="${Utils.url()}" target="_blank">${source}</a>`
+      source: `<a href="${Utils.url()}" target="_blank">${source}</a>`,
+      source_url: generatePostUrl(post.blog_name, post.id),
+      source_title: Generator.name()
     });
     if (Utils.boolean()) {
       const source2 = Generator.name();
@@ -287,8 +301,11 @@ const appendTypeAttributes = post => {
     }
   } else if (post.type === 'link') {
     Object.assign(post, {
+      link_author: Generator.name(),
+      link_image: '',
+      link_image_dimensions: '',
+      title: Generator.title(),
       url: Utils.url(),
-      author: Generator.name(),
       excerpt: Generator.description(),
       publisher: Utils.url(),
       photos: generatePhotos(),
@@ -297,7 +314,10 @@ const appendTypeAttributes = post => {
   } else if (post.type === 'chat') {
     Object.assign(post, {
       body: Generator.description(),
-      dialogue: generateDialogue()
+      dialogue: generateDialogue(),
+      title: Generator.title(),
+      source_url: generatePostUrl(post.blog_name, post.id),
+      source_title: Generator.name()
     });
   } else if (post.type === 'audio') {
     const player = generateAudioPlayer();

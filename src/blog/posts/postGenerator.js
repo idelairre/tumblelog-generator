@@ -2,10 +2,10 @@ import { generate as generateBlogInfo } from '../info/blogInfoGenerator';
 import { generateApiPost } from '../../objects/post/postGenerator';
 import * as Utils from '../../utils/utils';
 
-export const generate = generateApiPost;
+export const generate = query => generateApiPost(query);
 
 export const generateMany = query => {
-  return Utils.populate(new Array(query.limit), generate(query));
+  return Utils.populate(new Array(query.limit), generateApiPost.bind(this, query));
 };
 
 export const fetch = (name, query) => {
