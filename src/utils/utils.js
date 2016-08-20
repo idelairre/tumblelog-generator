@@ -93,6 +93,16 @@ export const paragraph = () => {
   return Generator.description();
 };
 
+export const populate = (array, values) => {
+  if (typeof values === 'function') {
+    const fn = values;
+    for (let i = 0; i < array.length; i += 1) {
+      array[i] = fn();
+    }
+  }
+  return array;
+};
+
 export const truncate = (string, length) => {
   if (typeof string === 'string' && typeof length === 'number') {
     return string.substring(0, length);

@@ -12,10 +12,11 @@ export const generate = (name = Generator.name()) => {
 };
 
 export const generateMany = (num = 10) => {
-  return new Array(num).fill(generate());
+  return Utils.populate(new Array(num), generate());
 };
 
 export const fetch = query => {
+  query = Object.assign({ limit: 10 }, query);
   const response = {
     total_followers: Utils.number(),
     users: generateMany(query.limit)

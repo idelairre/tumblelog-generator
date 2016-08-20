@@ -1,7 +1,7 @@
 import Generator from '../../generators/generators';
 import * as Utils from '../../utils/utils';
 
-export const generateUserInfo = name => {
+export const generate = name => {
   const user = {
     title: Generator.title(),
     name: name,
@@ -38,21 +38,17 @@ export const generateUserInfo = name => {
   return user;
 };
 
-export const generateUserInfos = num => {
-  const tumblelogs = [];
-  for (let i = 0; i < num; i += 1) {
-    tumblelogs.push(generateUserInfo());
-  }
-  return tumblelogs;
+export const generateMany = num => {
+  return Utils.populate(new Array(num), generate.bind(this));
 }
 
 export const fetch = (name = Generator.name()) => {
   const response = {
     user: {
-      blogs: [generateUserInfo(name)]
+      blogs: [generate(name)]
     }
   };
-  response.user.blogs.concat(generateUserInfos(Utils.number({ min: 0, max: 5 })));
+  response.user.blogs.concat(generateMany(Utils.number({ min: 0, max: 5 })));
   response.user.blogs[0].primary = true;
   response.user.blogs[0].admin = true
   return Utils.generateResponse(response);

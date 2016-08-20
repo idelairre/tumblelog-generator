@@ -11,12 +11,16 @@ export const generate = (name = Generator.name()) => {
   return user;
 };
 
-export const generateMany = query => {
-  return new Array(query.limit).fill(generate(query));
+export const generateMany = (num = 10) => {
+  return Utils.populate(new Array(num), generate());
 };
 
 export const fetch = query => {
   query = Object.assign({ limit: 10 }, query);
   const blogs = generateMany(query.limit);
-  return Utils.generateResponse(blogs);
+  const response = {
+    total_blogs: Utils.number({ min: 0, max: 2000 }),
+    blogs
+  };
+  return Utils.generateResponse(response);
 };

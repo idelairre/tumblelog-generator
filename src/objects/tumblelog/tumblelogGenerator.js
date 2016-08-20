@@ -1,7 +1,7 @@
 import Generators from '../../generators/generators';
 import * as Utils from '../../utils/utils';
 
-export const generateTumblelog = (name = Generators.name()) => {
+export const generate = (name = Generators.name()) => {
   const tumblelogDescription = generateDescriptionByMarkovChain();
   return {
     anonymous_asks: Utils.number({ min: 0, max: 1 }),
@@ -30,9 +30,5 @@ export const generateTumblelog = (name = Generators.name()) => {
 };
 
 export const generateTumblelogs = num => {
-  const tumblelogs = [];
-  for (let i = 0; i < num; i += 1) {
-    tumblelogs.push(generateTumblelog());
-  }
-  return tumblelogs;
+  return Utils.populate(new Array(num), generate.bind(this));
 };

@@ -18,7 +18,7 @@ export const generate = (name = Generator.name()) => {
 };
 
 export const generateMany = num => {
-  return new Array(num).fill(generate());
+  return Utils.populate(new Array(num), generate.bind(this));
 };
 
 export const fetch = name => {

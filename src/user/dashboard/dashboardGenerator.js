@@ -5,7 +5,7 @@ export const generate = generateApiPost;
 
 export const generateMany = query => {
   query = Object.assign({ limit: 10 }, query);
-  return new Array(query.limit).fill(generate(query));
+  return Utils.populate(new Array(query.limit), generate(query));
 };
 
 export const fetch = query => {

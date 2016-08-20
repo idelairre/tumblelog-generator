@@ -59,6 +59,32 @@ describe('Client', () => {
     });
   });
 
+  it ('should persist data if "persistData" is enabled', async () => {
+    const client = new Client({
+      persistData: true,
+      returnPromises: true
+    });
+
+    expect(client.persistData).toBe(true);
+
+    const info = await client.blogInfo('banshee-hands');
+    const cache = client.__cache.blogs['banshee-hands'];
+
+    expect(cache).toBeDefined();
+    expect(cache.info).toEqual(info.blog);
+    expect(cache.followers).toBeDefined();
+    expect(cache.posts).toBeDefined();
+    expect(cache.likes).toBeDefined();
+
+    const followers = await client.blogFollowers('banshee-hands', { limit: 10 });
+    expect(cache.followers.slice(0, 10)).toEqual(followers.users);
+
+    console.log(followers);
+
+    const likes = await client.blogLikes('banshee-hands', { limit: 10 });
+    expect(cache.likes.slice(0, 10)).toEqual(likes.posts);
+  });
+
   describe('Blog methods', () => {
     describe('blogPosts', () => {
       it ('should return a response object containing blog info and an array of posts', done => {
@@ -155,6 +181,17 @@ describe('Client', () => {
           done();
         });
       });
+
+      it ('should return a user object with the configured user name', done => {
+        const client = new Client({
+          user: 'luksfoks'
+        });
+
+        client.userInfo((err, data) => {
+          expect(data.user.blogs[0].name).toMatch(/luksfoks/);
+          done();
+        });
+      });
     });
 
     describe('userDashboard', () => {
@@ -164,6 +201,7 @@ describe('Client', () => {
         });
 
         client.userDashboard((err, data) => {
+          expect(Array.isArray(data.posts)).toBe(true);
           done();
         });
       });
@@ -177,6 +215,7 @@ describe('Client', () => {
         });
 
         client.userDashboard(query, (err, data) => {
+          expect(data.posts.length).toEqual(query.limit);
           done();
         });
       });
@@ -188,6 +227,7 @@ describe('Client', () => {
           user: 'luksfoks'
         });
         client.userLikes((err, data) => {
+          data.posts.forEach(post => expect(post.liked).toBe(true));
           done();
         });
       });
@@ -200,6 +240,7 @@ describe('Client', () => {
           user: 'luksfoks'
         });
         client.userLikes(query, (err, data) => {
+          expect(data.posts.length).toEqual(query.limit);
           done();
         });
       });
@@ -211,6 +252,7 @@ describe('Client', () => {
           user: 'luksfoks'
         });
         client.userFollowing((err, data) => {
+          expect(Array.isArray(data.blogs)).toBe(true);
           done();
         });
       });
@@ -223,6 +265,7 @@ describe('Client', () => {
           user: 'luksfoks'
         });
         client.userFollowing(query, (err, data) => {
+          expect(data.blogs.length).toEqual(query.limit);
           done();
         });
       });

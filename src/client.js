@@ -1,5 +1,6 @@
 import Blog from './blog/blog';
 import User from './user/user';
+import Generator from './generators/generators';
 import * as Utils from './utils/utils';
 
 function wrapResponse(data, callback) {
@@ -19,20 +20,54 @@ function wrapResponse(data, callback) {
   }
 }
 
+// TODO: add persistData option, refactor user and blog endpoints to pull from pool of posts generated on creation
+
 class Client {
-  constructor({ returnPromises = false, user = false, returnErrors = false } = {}) {
+  constructor({ persistData = false, returnPromises = false, user = false, returnErrors = false } = {}) {
+    this.persistData = persistData;
     this.returnErrors = returnErrors;
     this.returnPromises = returnPromises;
     this.user = user;
+    this.__cache = {
+      blogs: {}
+    }
+  }
+
+  __createBlog(name) {
+    return new Generator.blog({
+      name,
+      followers: Utils.number({ min: 5, max: 40 }),
+      posts: Utils.number({ min: 0, max: 40 }),
+      likes: Utils.number({ min: 0, max: 50 })
+    });
   }
 
   blogInfo(name, callback) {
-    const data = Blog.info.fetch(name);
+    let data;
+    if (this.persistData && !this.__cache.blogs[name]) {
+      const blog = this.__createBlog(name);
+      this.__cache.blogs[name] = blog;
+      data = blog.getInfo();
+    } else if (this.persistData && this.__cache.blogs[name]) {
+      data = this.__cache.blogs[name].getInfo();
+    } else {
+      data = Blog.info.fetch(name);
+    }
     return wrapResponse.call(this, data, callback);
   }
 
   blogLikes(name, options, callback) {
-    return blogPosts.apply(this, arguments);
+    let data;
+    if (this.persistData && !this.__cache.blogs[name]) {
+      const blog = this.__createBlog(name);
+      this.__cache.blogs[name] = blog;
+      data = blog.getLikes();
+    } else if (this.persistData && this.__cache.blogs[name]) {
+      data = this.__cache.blogs[name].getLikes();
+    } else {
+      data = Blog.posts.fetch(name);
+    }
+    return wrapResponse.call(this, data, callback);
   }
 
   blogSubmissions(name, options, callback) {
@@ -40,16 +75,38 @@ class Client {
   }
 
   blogPosts(name, options, callback) {
-    const opts = (typeof options === 'function' && typeof callback === 'undefined' ? {} : options);
-    callback = (typeof options === 'function' && typeof callback === 'undefined' ? options : callback);
-    const data = Blog.posts.fetch(name, opts);
+    if (typeof options === 'function' && !callback) {
+      callback = options;
+      options = undefined;
+    }
+    let data;
+    if (this.persistData && !this.__cache.blogs[name]) {
+      const blog = this.__createBlog(name);
+      this.__cache.blogs[name] = blog;
+      data = blog.getPosts(options);
+    } else if (this.persistData && this.__cache.blogs[name]) {
+      data = this.__cache.blogs[name].getPosts(options);
+    } else {
+      data = Blog.posts.fetch(name, options);
+    }
     return wrapResponse.call(this, data, callback);
   }
 
   blogFollowers(name, options, callback) {
-    const opts = (typeof options === 'function' && !callback ? {} : options);
-    callback = (typeof options === 'function' && !callback ? options : callback);
-    const data = Blog.followers.fetch(opts);
+    if (typeof options === 'function' && !callback) {
+      callback = options;
+      options = undefined;
+    }
+    let data;
+    if (this.persistData && !this.__cache.blogs[name]) {
+      const blog = this.__createBlog(name);
+      this.__cache.blogs[name] = blog;
+      data = blog.getFollowers(options);
+    } else if (this.persistData && this.__cache.blogs[name]) {
+      data = this.__cache.blogs[name].getFollowers(options);
+    } else {
+      data = Blog.followers.fetch(options);
+    }
     return wrapResponse.call(this, data, callback);
   }
 

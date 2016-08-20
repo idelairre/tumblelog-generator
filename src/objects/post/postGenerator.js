@@ -266,7 +266,7 @@ const appendTypeAttributes = post => {
   }
   if (post.type === 'photo') {
     Object.assign(post, {
-      image_permalink: '',
+      image_permalink: '', // find a way to generate a realistic one of these
       photos: generatePhotos(),
       caption: Utils.wrappedSentence()
     });
@@ -334,3 +334,8 @@ const appendTypeAttributes = post => {
   }
   return post;
 }
+
+export const generateMany = query => {
+  query = Object.assign({ limit: 10 }, query);
+  return Utils.populate(new Array(query.limit), generateApiPost.bind(this, query));
+};

@@ -5,7 +5,7 @@ import * as Utils from '../../utils/utils';
 export const generate = generateApiPost;
 
 export const generateMany = query => {
-  return new Array(query.limit).fill(generate(query));
+  return Utils.populate(new Array(query.limit), generate(query));
 };
 
 export const fetch = (name, query) => {

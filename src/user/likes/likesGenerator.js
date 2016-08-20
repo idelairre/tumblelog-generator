@@ -1,5 +1,5 @@
 import { generateApiPost } from '../../objects/post/postGenerator';
-import { generateResponse } from '../../utils/utils';
+import * as Utils from '../../utils/utils';
 
 export const generate = query => {
   query.liked = true;
@@ -9,11 +9,11 @@ export const generate = query => {
 
 export const generateMany = query => {
   query = Object.assign({ limit: 10 }, query);
-  return new Array(query.limit).fill(generate(query));
+  return Utils.populate(new Array(query.limit), generate(query));
 };
 export const fetch = query => {
   const response = {
     posts: generateMany(query)
   };
-  return generateResponse(response);
+  return Utils.generateResponse(response);
 };
