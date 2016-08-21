@@ -2,8 +2,7 @@
   "name": "tumblr-faker",
   "version": "0.0.1",
   "description": "",
-  "main": "dist/index.js",
-  "jsnext:main": "src/index.js",
+  "main": "dist/tumblr-faker.js",
   "files": [
     "dist",
     "lib",
