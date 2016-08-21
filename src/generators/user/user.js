@@ -3,7 +3,7 @@ import { generateMany as generateFollowing } from '../../user/following/followin
 import * as Utils from '../../utils/utils';
 
 export default class User {
-  constructor({ posts, likes, following }) {
+  constructor({ posts = 75, likes = 50, following = 25 } = {}) {
     this.posts = generatePosts({
       limit: posts
     });

@@ -1,3 +1,4 @@
+import generate from '../name/nameGenerator';
 import { generateMany as generateFollowers } from '../../blog/followers/followerGenerator';
 import { generateMany as generatePosts } from '../../objects/post/postGenerator';
 import { generate as generateBlogInfo } from '../../blog/info/blogInfoGenerator';
@@ -5,7 +6,7 @@ import name from '../name/nameGenerator';
 import * as Utils from '../../utils/utils';
 
 export default class Blog {
-  constructor({ name, followers, posts, likes }) {
+  constructor({ name = generateName(), followers = 25, posts = 40, likes = 50 } = {}) {
     this.posts = generatePosts({
       limit: posts,
       blog_name: name

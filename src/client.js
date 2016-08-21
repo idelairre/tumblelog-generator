@@ -155,7 +155,12 @@ class Client {
       callback = options;
       options = undefined;
     }
-    const data = User.following.fetch(options);
+    let data;
+    if (this.persistData) {
+      data = this.__cache.user.getFollowing(options);
+    } else {
+      data = User.following.fetch(options);
+    }
     return wrapResponse.call(this, data, callback);
   }
 }

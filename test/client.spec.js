@@ -1,4 +1,12 @@
 import { Client } from '../src/index';
+import * as Helpers from './helpers';
+
+let jasmine = jasmine || {};
+
+if (Helpers.isNode()) {
+  const Jasmine = require('jasmine');
+  jasmine = new Jasmine();
+}
 
 describe('Client', () => {
   it ('should work', () => {
@@ -59,7 +67,9 @@ describe('Client', () => {
     });
   });
 
-  it ('should persist data if "persistData" is enabled', async () => {
+  it ('should persist blog data if "persistData" is enabled', async () => {
+    const query = { limit: 10 };
+
     const client = new Client({
       persistData: true,
       returnPromises: true
@@ -76,11 +86,31 @@ describe('Client', () => {
     expect(cache.posts).toBeDefined();
     expect(cache.likes).toBeDefined();
 
-    const followers = await client.blogFollowers('banshee-hands', { limit: 10 });
+    const posts = await client.blogPosts('banshee-hands', query);
+    expect(cache.posts.slice(0, 10)).toEqual(posts.posts);
+
+    const followers = await client.blogFollowers('banshee-hands', query);
     expect(cache.followers.slice(0, 10)).toEqual(followers.users);
 
-    const likes = await client.blogLikes('banshee-hands', { limit: 10 });
+    const likes = await client.blogLikes('banshee-hands', query);
     expect(cache.likes.slice(0, 10)).toEqual(likes.posts);
+  });
+
+  it ('should persist user data if "persistData" is enabled', async () => {
+    const query = { limit: 10 };
+
+    const client = new Client({
+      user: 'camdamage',
+      persistData: true,
+      returnPromises: true
+    });
+
+    const cache = client.__cache.user;
+
+    expect(cache).toBeDefined();
+
+    const posts = await client.userDashboard('camdamage', query);
+    expect(cache.posts.slice(0, 10)).toEqual(posts.posts);
   });
 
   describe('Blog methods', () => {
@@ -117,7 +147,7 @@ describe('Client', () => {
           expect(data).toBeDefined();
           expect(data.posts).toBeDefined();
           expect(data.blog).toBeDefined();
-          expect(data.blog.title).toMatch(/banshee-hands/);
+          expect(data.blog.name).toMatch(/banshee-hands/);
           data.posts.forEach(post => expect(post.blog_name).toMatch(/banshee-hands/));
           done();
         });
@@ -186,6 +216,7 @@ describe('Client', () => {
         });
 
         client.userInfo((err, data) => {
+          console.log(data);
           expect(data.user.blogs[0].name).toMatch(/luksfoks/);
           done();
         });
@@ -270,3 +301,7 @@ describe('Client', () => {
     });
   });
 });
+
+if (Helpers.isNode()) {
+  jasmine.execute();
+}

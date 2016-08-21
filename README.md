@@ -73,7 +73,7 @@ const user = new Generator.user({
 });
 
 const oauthRequest = query => {
-  const posts = user.getDashboard(query);
+  const { posts } = user.getDashboard(query);
   return Promise.resolve({ posts });
 };
 

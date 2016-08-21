@@ -19,13 +19,18 @@ const removeOptional = post => {
 describe('Client', () => {
   describe('blogInfo', () => {
     it ('should have the same response parameters as the real tumblr client', async done => {
-      const real = await tumblrClient.blogInfo('camdamage', { limit: 1 });
-      const fake = await fakerClient.blogInfo('camdamage', { limit: 1 });
-      delete real.blog.ask_anon;
-      delete fake.blog.ask_anon;
+      try {
+        const query = { limit: 1 };
+        const real = await tumblrClient.blogInfo('camdamage', query);
+        const fake = await fakerClient.blogInfo('camdamage', query);
+        delete real.blog.ask_anon;
+        delete fake.blog.ask_anon;
 
-      expect(Object.keys(real.blog)).toEqual(Object.keys(fake.blog));
-      done();
+        expect(Object.keys(real.blog)).toEqual(Object.keys(fake.blog));
+        done();
+      } catch (err) {
+        console.error(err);
+      }
     });
   });
 

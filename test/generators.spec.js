@@ -1,6 +1,15 @@
 import { Generator } from '../src/index';
 import BlogGenerator from '../src/blog/blog';
 
+import * as Helpers from './helpers';
+
+let jasmine = jasmine || {};
+
+if (Helpers.isNode()) {
+  const Jasmine = require('jasmine');
+  jasmine = new Jasmine();
+}
+
 describe('Generator', () => {
   describe('posts', () => {
     it ('should work', () => {
@@ -52,3 +61,7 @@ describe('Generator', () => {
   //   });
   // });
 });
+
+if (Helpers.isNode()) {
+  jasmine.execute();
+}
