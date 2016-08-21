@@ -15,6 +15,7 @@ module.exports = {
     './test/**/*.spec.js': ['webpack']
   },
   webpack: {
+    target: 'node',
     module: {
       preLoaders: [{
         test: /\.json$/,
