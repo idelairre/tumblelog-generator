@@ -1,17 +1,19 @@
-import Generator from '../../generators/generators';
+import generateDescription from '../../generators/description/descriptionGenerator';
+import generateName from '../../generators/name/nameGenerator';
+import generateTitle from '../../generators/title/titleGenerator';
 import * as Utils from '../../utils/utils';
 
 export const generate = name => {
   const user = {
-    title: Generator.title(),
+    title: generateTitle(),
     name: name,
     posts: Utils.number(),
     url: Utils.tumblrUrl(name),
     updated: Utils.timestamp(),
-    description: Generator.description(),
+    description: generateDescription(),
     is_nsfw: Utils.boolean(),
     ask: Utils.boolean(),
-    ask_page_title: Generator.title(),
+    ask_page_title: generateTitle(),
     followed: false,
     likes: Utils.number(),
     is_blocked_from_primary: false,
@@ -42,7 +44,7 @@ export const generateMany = num => {
   return Utils.populate(new Array(num), generate.bind(this));
 }
 
-export const fetch = (name = Generator.name()) => {
+export const fetch = (name = generateName()) => {
   const response = {
     user: {
       blogs: [generate(name)]

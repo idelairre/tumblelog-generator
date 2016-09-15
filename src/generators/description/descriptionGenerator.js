@@ -1,15 +1,16 @@
-import * as Utils from '../../utils/utils';
 import MarkovChain from 'markovchain';
+import { generateTemplateSeeds, parseTemplate, sample, union } from '../../utils/utils';
+import { replaceRealInfo } from '../../utils/replacers';
 import followingCorpus from '../../dictionary/following.json';
 import pos from '../../corpus/pos.json';
 
-const BAD_TERMINATORS = Utils.union(pos.WRB, pos.CC, pos.IN, pos.DT, ['A', 'be', 'by', 'with', 'of', 'that', 'That', 'The', 'the', 'THE', 'a', 'an', 'and', 'as', 'I', 'in', 'In', 'im', 'is', 'Is', 'IS', 'on', 'so', 'to', 'To', 'TO', 'no', 'No', 'could', 'And', 'your', ',', 'for', 'from', '&', ':']);
+const BAD_TERMINATORS = union(pos.WRB, pos.CC, pos.IN, pos.DT, ['A', 'be', 'by', 'with', 'of', 'that', 'That', 'The', 'the', 'THE', 'a', 'an', 'and', 'as', 'I', 'in', 'In', 'im', 'is', 'Is', 'IS', 'on', 'so', 'to', 'To', 'TO', 'no', 'No', 'could', 'And', 'your', ',', 'for', 'from', '&', ':']);
 
 let markovChain = null;
 
 export const template = (following = followingCorpus) => {
-  const seeds = Utils.generateTemplateSeeds(following, 'description');
-  return Utils.parseTemplate(seeds);
+  const seeds = generateTemplateSeeds(following, 'description');
+  return parseTemplate(seeds);
 }
 
 export const markov = (following = followingCorpus) => {
@@ -17,7 +18,7 @@ export const markov = (following = followingCorpus) => {
     const tmpList = Object.keys(wordList).filter(word => {
       return word[0];
     });
-    return Utils.sample(tmpList);
+    return sample(tmpList);
   }
 
   const terminator = sentence => {
@@ -31,7 +32,7 @@ export const markov = (following = followingCorpus) => {
     seed += desc;
   });
   markovChain = markovChain || new MarkovChain(seed);
-  return Utils.replaceRealInfo(markovChain.start(getRandomStarter).end(terminator).process());
+  return replaceRealInfo(markovChain.start(getRandomStarter).end(terminator).process());
 }
 
 const generate = (type = 'markov') => {

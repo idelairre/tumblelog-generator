@@ -1,7 +1,7 @@
-import Generators from '../../generators/generators';
+import nameGenerator from '../../generators/name/nameGenerator';
 import * as Utils from '../../utils/utils';
 
-export const generate = (name = Generators.name()) => {
+export const generate = (name = generateName()) => {
   const tumblelogDescription = generateDescriptionByMarkovChain();
   return {
     anonymous_asks: Utils.number({ min: 0, max: 1 }),

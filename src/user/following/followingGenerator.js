@@ -1,12 +1,14 @@
-import Generator from '../../generators/generators';
+import generateDescription from '../../generators/description/descriptionGenerator';
+import generateName from '../../generators/name/nameGenerator';
+import generateTitle from '../../generators/title/titleGenerator';
 import * as Utils from '../../utils/utils';
 
-export const generate = (name = Generator.name()) => {
+export const generate = (name = generateName()) => {
   const user = {
     name,
-    title: Generator.title(),
+    title: generateTitle(),
     updated: Utils.timestamp(),
-    description: Generator.description()
+    description: generateDescription()
   };
   return user;
 };

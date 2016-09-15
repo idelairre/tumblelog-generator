@@ -1,4 +1,9 @@
-import Generator from '../../generators/generators';
+import generateDescription from '../../generators/description/descriptionGenerator';
+import generateTitle from '../../generators/title/titleGenerator';
+import generateName from '../../generators/name/nameGenerator';
+import sentence from '../../generators/sentence/sentence';
+import words from '../../generators/words/words';
+import url from '../../generators/url/url';
 import * as Utils from '../../utils/utils';
 
 export const contentRating = () => {
@@ -28,11 +33,11 @@ export const randomFormat = () => {
 export const generateDialogue = (num = Utils.number({ min: 1, max: 5 })) => {
   const dialogue = [];
   for (let i = 0; i < num; i += 1) {
-    const name = Generator.name();
+    const name = generateName();
     dialogue.push({
       label: name,
       name: name,
-      phrase: Generator.description() // NOTE: these results are crappy, maybe pull from a corpus of chat logs?
+      phrase: generateDescription() // NOTE: these results are crappy, maybe pull from a corpus of chat logs?
     });
   }
   return dialogue;
@@ -72,11 +77,11 @@ export const generateMediaAsset = (size, filetype = 'jpg') => {
   return `http://${Utils.number({ min: 20, max: 99 })}.media.tumblr.com/tumblr_${Utils.uuid(19)}_${size}${size === 75 ? 'sq' : ''}.${filetype}`;
 };
 
-export const generatePostSlug = (title = Generator.title()) => {
+export const generatePostSlug = (title = generateTitle()) => {
   return title.replace(/\W+/g, '-').toLowerCase();
 };
 
-export const generatePostUrl = (tumblelog = Generator.name(), id = generateId(), title = Generator.title()) => {
+export const generatePostUrl = (tumblelog = generateName(), id = generateId(), title = generateTitle()) => {
   return `${Utils.tumblrUuid(tumblelog)}/post/${id}/${generatePostSlug(title)}`;
 };
 
@@ -90,7 +95,7 @@ export const generatePhotos = (num = Utils.number({ min: 1, max: 5 })) => {
   const sizes = [{ width: 1280, height: 722 }, { width: 500, height: 282 }, { width: 400, height: 225 }, { width: 250, height: 141 }, { width: 100, height: 56 }, { width: 75, height: 75 }];
   for (let i = 0; i < num; i += 1) {
     const response = {
-      caption: Utils.sample(['', Generator.title()]),
+      caption: Utils.sample(['', generateTitle()]),
       alt_sizes: []
     };
     for (let j = 0; j < sizes.length; j += 1) {
@@ -109,7 +114,7 @@ export const generateTrail = (num = Utils.number({ min: 0, max: 2 })) => {
   for (let i = 0; i < num; i += 1) {
     const response = {
       blog: {
-        name: Generator.name(),
+        name: generateName(),
         active: Utils.boolean(),
         theme: {
           avatar_shape: Utils.sample(['circle', 'square']),
@@ -199,10 +204,10 @@ export const generateClientPost = (tumblelog = Geneartors.name()) => {
       'show_reddit': Utils.boolean(),
       'show_reporting_links': false,
       'tumblelog_name': tumblelog,
-      'twitter_username': `@${Generator.name()}`
+      'twitter_username': `@${generateName()}`
     },
     'sponsered': '',
-    'tags': Utils.words(),
+    'tags': words(),
     'tumblelog': tumblelog,
     'tumblelog-content-rating': contentRating(),
     'tumblelog-key': Utils.uuid(8),
@@ -231,8 +236,8 @@ export const generateClientPost = (tumblelog = Geneartors.name()) => {
 
 export const generateApiPost = (query = {}) => {
   const id = generateId();
-  const title = query.title || Generator.title();
-  const name = query.blog_name || Generator.name();
+  const title = query.title || generateTitle();
+  const name = query.blog_name || generateName();
   const post = {
     blog_name: name,
     id,
@@ -244,9 +249,9 @@ export const generateApiPost = (query = {}) => {
     state: query.state || randomState(),
     format: query.format || 'html',
     reblog_key: Utils.uuid(8),
-    tags: Utils.words(),
+    tags: words(),
     short_url: generateTinyUrl(),
-    summary: Generator.description(),
+    summary: generateDescription(),
     recommended_source: null,
     recommended_color: null,
     followed: query.followed || Utils.boolean(),
@@ -270,72 +275,72 @@ const appendTypeAttributes = post => {
   // if (post.type === 'photo' || post.type === 'quote') {
   //   Object.assign(post, {
   //     source_url: generatePostUrl(post.blog_name, post.id),
-  //     source_title: Generator.name()
+  //     source_title: generateName()
   //   });
   // }
   if (post.type === 'photo') {
     Object.assign(post, {
       // image_permalink: '', // find a way to generate a realistic one of these
       photos: generatePhotos(),
-      caption: Utils.wrappedSentence()
+      caption: Utils.wrap(generateDescription(), 'p')
     });
     if (Utils.boolean()) {
       post.photoset_layout = '111';
     }
   } else if (post.type === 'text') {
     Object.assign(post, {
-      title: Utils.sentence(),
-      body: Utils.paragraph()
+      title: sentence(),
+      body: paragraph()
     });
   } else if (post.type === 'quote') {
-    const source = Generator.name();
+    const source = generateName();
     Object.assign(post, {
-      text: Utils.sentence(),
-      source: `<a href="${Utils.url()}" target="_blank">${source}</a>`,
+      text: sentence(),
+      source: `<a href="${url()}" target="_blank">${source}</a>`,
       source_url: generatePostUrl(post.blog_name, post.id),
-      source_title: Generator.name()
+      source_title: generateName()
     });
     if (Utils.boolean()) {
-      const source2 = Generator.name();
-      post.source += `(via <a href="${Utils.url()}" target="_blank">${source2}</a>`;
+      const source2 = generateName();
+      post.source += `(via <a href="${url()}" target="_blank">${source2}</a>`;
     }
   } else if (post.type === 'link') {
     Object.assign(post, {
-      link_author: Generator.name(),
+      link_author: generateName(),
       link_image: '',
       link_image_dimensions: '',
-      title: Generator.title(),
-      url: Utils.url(),
-      excerpt: Generator.description(),
-      publisher: Utils.url(),
+      title: generateTitle(),
+      url: url(),
+      excerpt: generateDescription(),
+      publisher: url(),
       photos: generatePhotos(),
-      description: Utils.wrappedParagraph() // TODO: write function that wraps text in blockquotes and p tags
+      description: Utils.wrap(generateDescription(), 'blockquote', 'p') // TODO: write function that wraps text in blockquotes and p tags
     });
   } else if (post.type === 'chat') {
     Object.assign(post, {
-      body: Generator.description(),
+      body: generateDescription(),
       dialogue: generateDialogue(),
-      title: Generator.title(),
+      title: generateTitle(),
       source_url: generatePostUrl(post.blog_name, post.id),
-      source_title: Generator.name()
+      source_title: generateName()
     });
   } else if (post.type === 'audio') {
     const player = generateAudioPlayer();
     Object.assign(post, {
-      caption: Utils.sentence(),
+      caption: sentence(),
       embed: player,
       player: player,
       plays: Utils.number(),
-      audio_url: Utils.url(), // TODO: look at the way these are generated for soundcloud
-      audio_source_url: Utils.url(),
+      audio_url: url(), // TODO: look at the way these are generated for soundcloud
+      audio_source_url: url(),
       is_external: Utils.boolean(),
       audio_type: 'soundcloud',
-      provider_url: Utils.url()
+      provider_url: url()
     });
   } else if (post.type === 'video') {
     Object.assign(post, {
-      summary: Generator.title(),
-      thumbnail_url: Utils.url(),
+      summary: generateTitle(),
+      thumbnail_url: url(),
       video_type: 'youtube',
       html5_capable: true,
       player: generateVideoPlayer(),
@@ -344,12 +349,12 @@ const appendTypeAttributes = post => {
       thumbnail_height: 360
     });
   } else if (post.type === 'answer') {
-    const asker = Generator.name();
+    const asker = generateName();
     Object.assign(post, {
       asking_name: asker,
       asking_url: Utils.tumblrUrl(asker),
-      question: Utils.sentence(),
-      answer: Utils.sentence() // TODO: wrap this in tags and shit
+      question: sentence(),
+      answer: sentence() // TODO: wrap this in tags and shit
     });
   }
   return post;

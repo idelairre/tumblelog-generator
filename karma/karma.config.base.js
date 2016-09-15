@@ -1,4 +1,5 @@
 var path = require('path');
+var CircularDependencyPlugin = require('circular-dependency-plugin');
 
 'use strict';
 
@@ -8,19 +9,25 @@ module.exports = {
   singleRun: true,
   colors: true,
   frameworks: ['jasmine'],
-  browsers: ['Firefox'],
-  files: ['./test/**/*.spec.js'],
+  browsers: ['Chrome'],
+  plugins: ['karma-htmlfile-reporter', 'karma-jasmine', 'karma-chrome-launcher', 'karma-phantomjs-launcher', 'karma-sourcemap-loader', 'karma-webpack'],
+  files: ['node_modules/babel-polyfill/dist/polyfill.js', './test/index.spec.js'],
   exclude: ['./test/**/tumblr.spec.js'],
   preprocessors: {
-    './test/**/*.spec.js': ['webpack']
+    './test/index.spec.js': ['webpack', 'sourcemap']
   },
   webpack: {
     target: 'node',
+    devtool: 'inline-source-map',
+    plugins: [
+      new CircularDependencyPlugin({
+        failOnError: true
+      })
+    ],
     module: {
       preLoaders: [{
         test: /\.json$/,
-        loader: 'json-loader',
-        exclude: /node_modules/
+        loader: 'json-loader'
       }],
       loaders: [{
         test: /\.js$/,
@@ -49,5 +56,9 @@ module.exports = {
       noInfo: true,
       warnings: false
     }
-  }
+  },
+  captureTimeout: 60000, // it was already there
+  browserDisconnectTimeout : 10000,
+  browserDisconnectTolerance : 1,
+  browserNoActivityTimeout : 60000,//by default 10000
 }

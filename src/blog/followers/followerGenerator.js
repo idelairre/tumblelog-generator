@@ -1,25 +1,25 @@
-import Generator from '../../generators/generators';
-import * as Utils from '../../utils/utils';
+import nameGenerator from '../../generators/name/nameGenerator';
+import { generateResponse, number, populate, timestamp, tumblrUrl } from '../../utils/utils';
 
-export const generate = (name = Generator.name()) => {
+export const generate = (name = nameGenerator()) => {
   const follower = {
     name,
     following: true,
-    url: Utils.tumblrUrl(name),
-    updated: Utils.timestamp()
+    url: tumblrUrl(name),
+    updated: timestamp()
   };
   return follower;
 };
 
 export const generateMany = (num = 10) => {
-  return Utils.populate(new Array(num), generate());
+  return populate(new Array(num), generate());
 };
 
 export const fetch = query => {
   query = Object.assign({ limit: 10 }, query);
   const response = {
-    total_followers: Utils.number(),
+    total_followers: number(),
     users: generateMany(query.limit)
   };
-  return Utils.generateResponse(response);
+  return generateResponse(response);
 };

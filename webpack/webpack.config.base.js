@@ -3,27 +3,28 @@
 var path = require('path');
 var libraryName = require('../package.json').name;
 var outputFile = libraryName + '.js';
+var CircularDependencyPlugin = require('circular-dependency-plugin');
 
 module.exports = {
   entry: './src/index.js',
-  target: 'node',
   devtool: 'source-map',
   output: {
     path: './lib',
     filename: outputFile,
-    library: libraryName,
-    libraryTarget: 'umd',
-    umdNamedDefine: true
+    libraryTarget: 'umd'
   },
   resolve: {
     extensions: ['', '.js']
   },
+  plugins: [
+    new CircularDependencyPlugin({
+      failOnError: true
+    })
+  ],
   module: {
-    noParse: /node_modules\/json-schema\/lib\/validate\.js/,
     preLoaders: [{
       test: /\.json$/,
-      loader: 'json-loader',
-      exclude: /node_modules/
+      loader: 'json-loader'
     }],
     loaders: [{
       test: /\.js$/,

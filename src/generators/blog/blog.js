@@ -2,8 +2,8 @@ import generate from '../name/nameGenerator';
 import { generateMany as generateFollowers } from '../../blog/followers/followerGenerator';
 import { generateMany as generatePosts } from '../../objects/post/postGenerator';
 import { generate as generateBlogInfo } from '../../blog/info/blogInfoGenerator';
-import name from '../name/nameGenerator';
-import * as Utils from '../../utils/utils';
+import generateName from '../name/nameGenerator';
+import { generateResponse } from '../../utils/utils';
 
 export default class Blog {
   constructor({ name = generateName(), followers = 25, posts = 40, likes = 50 } = {}) {
@@ -21,7 +21,7 @@ export default class Blog {
   }
 
   getInfo() {
-    return Utils.generateResponse({
+    return generateResponse({
       blog: this.info
     });
   }
@@ -29,7 +29,7 @@ export default class Blog {
   getFollowers(query) {
     query = Object.assign({ limit: 10, offset: 0 }, query);
     const followers = this.followers.slice(query.offset, query.offset + query.limit);
-    return Utils.generateResponse({
+    return generateResponse({
       users: followers,
       total_followers: followers.length
     });
@@ -39,15 +39,24 @@ export default class Blog {
     query = Object.assign({ limit: 10, offset: 0}, query);
     const likes = query.type ? this.likes.every(post => {
       return post.type === query.type;
-    }).slice(query.offset, query.offset + query.limit) : this.likes.slice(query.offset, query.offset + query.limit);
-    return Utils.generateResponse({ likes });
+    }) : this.likes;
+    return generateResponse({
+      likes: likes.slice(query.offset, query.offset + query.limit)
+    });
   }
 
   getPosts(query) {
     query = Object.assign({ limit: 10, offset: 0 }, query);
     const posts = query.type ? this.posts.every(post => {
       return post.type === query.type;
-    }).slice(query.offset, query.offset + query.limit) : this.posts.slice(query.offset, query.offset + query.limit);
-    return Utils.generateResponse({ blog: this.info, posts, total_posts: this.posts.length });
+    }) : this.posts;
+    if (!posts) {
+      throw new Error('Posts undefined');
+    }
+    return generateResponse({
+      blog: this.info,
+      posts: posts.slice(query.offset, query.offset + query.limit),
+      total_posts: this.posts.length
+    });
   }
 }

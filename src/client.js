@@ -33,9 +33,9 @@ class Client {
         blogs: {}
       };
       this.__cache.user = new Generator.user({
-        posts: 100,
-        likes: 50,
-        following: 25
+        posts: 15,
+        likes: 20,
+        following: 10
       });
     }
   }

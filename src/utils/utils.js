@@ -1,5 +1,4 @@
 import pos from 'pos';
-import Generator from '../generators/generators';
 import posCorpus from '../corpus/pos.json';
 import following from '../dictionary/following.json';
 import mersenne from './mersenne';
@@ -17,11 +16,6 @@ export const color = (baseRed255 = 0, baseGreen255 = 0, baseBlue255 = 0) => {
   const greenStr = green.toString(16);
   const blueStr = blue.toString(16);
   return `#${redStr.length === 1 ? '0' : ''}${redStr}${(greenStr.length === 1 ? '0' : '')}${greenStr}${(blueStr.length === 1 ? '0' : '')}${blueStr}`;
-};
-
-export const email = (name = Generator.name()) => {
-  const provider = sample(['gmail', 'hotmail', 'aol', 'yahoo']);
-  return `${name}@${provider}.com`;
 };
 
 export const number = (options = { min: 0, max: false }) => {
@@ -57,10 +51,6 @@ export const sample = array => {
   return array[index];
 };
 
-export const sentence = () => {
-  return Generator.title();
-};
-
 export const sortBy = (array, property) => {
   array.sort((a, b) => {
     return (a[property] - b[property]);
@@ -87,10 +77,6 @@ export const past = (years, refDate) => {
   date.setTime(past);
 
   return date;
-};
-
-export const paragraph = () => {
-  return Generator.description();
 };
 
 export const populate = (array, values) => {
@@ -126,13 +112,6 @@ export const uniq = (target, ...args) => {
   return out;
 }
 
-export const url = () => {
-  const domainSuffix = sample(['.com', '.org']);
-  const protocol = sample(['https://', 'http://']);
-  const domain = Generator.name();
-  return `${protocol}${domain}${domainSuffix}`;
-};
-
 export const union = (target, ...args) => {
   const array = target.concat(...args);
   return array.filter((item, post, arr) => {
@@ -157,11 +136,6 @@ export const uuid = (length = false) => {
   return uuid.replace(/-/g, '');
 };
 
-export const words = (length = number(12)) => {
-  const words = without(Generator.title().split(' ').slice(0, length), '');
-  return words.map(word => word.replace(/\W/g, ''));
-};
-
 export const without = (target, ...args) => {
   const filters = [].concat(...args);
   return target.filter(item => {
@@ -170,44 +144,6 @@ export const without = (target, ...args) => {
     }
     return item;
   });
-};
-
-export const wrappedSentence = () => {
-  return `<p>${sentence()}<\\/p>`;
-}
-
-export const wrappedParagraph = () => {
-  return `<blockquote><p>${paragraph()}<\\/p><\\/blockquote>`;
-}
-
-let names = [];
-
-export const replaceNames = text => {
-  if (names.length === 0) {
-    names = following.map(user => {
-      return user.name;
-    });
-  }
-  const words = text.split(' ').map(word => {
-    if (names.includes(word)) {
-      word = Generator.name();
-      return word;
-    }
-    return word;
-  }).join(' ');
-  return words;
-};
-
-export const replaceEmails = text => {
-  return text.replace(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi, email());
-};
-
-export const replaceTwitter = text => {
-  return text.replace(/^@?(\w){1,15}$/g, `@${Generator.name()}`);
-};
-
-export const replaceRealInfo = text => {
-  return replaceNames(replaceTwitter(replaceEmails(text)));
 };
 
 export const setting = () => {
@@ -220,6 +156,17 @@ export const tumblrUrl = name => {
 
 export const tumblrUuid = name => {
   return `${name}.tumblr.com`;
+};
+
+export const wrap = (string, ...tags) => {
+  const tagArr = [].concat(...tags);
+  const opening = tagArr.map(tag => {
+    return `<${tag}>`;
+  }).join(', ');
+  const closing = tagArr.map(tag => {
+    return `<\\/${tag}>`;
+  }).join(', ');
+  return `${tags}${string}${closing}`;
 };
 
 export const timestamp = () => {
