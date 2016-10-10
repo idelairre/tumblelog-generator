@@ -1,4 +1,6 @@
-import nameGenerator from '../../generators/name/nameGenerator';
+import generateName from '../../generators/name/nameGenerator';
+import generateTitle from '../../generators/title/titleGenerator';
+import generateDescriptionByMarkovChain from '../../generators/description/descriptionGenerator';
 import * as Utils from '../../utils/utils';
 
 export const generate = (name = generateName()) => {
@@ -23,7 +25,7 @@ export const generate = (name = generateName()) => {
     name: name,
     premium_partner: false,
     share_following: Utils.boolean(),
-    title: Generators.title(),
+    title: generateTitle(),
     url: `http://${name}.tumblr.com`,
     uuid: `${name}.tumblr.com`
   };

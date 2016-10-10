@@ -23,7 +23,7 @@ client.userInfo((err, data) => {
 })
 ```
 
-You can opt to return promises as per the official tumblr client and to  return errors if you want to test error/exception/etc handling. If you pass a specific error type to the constructor it will return that error, otherwise it defaults to 400.
+You can opt to return promises as and to return errors if you want to test error/exception/etc handling. If you pass a specific error type to the constructor it will return that error, otherwise it defaults to 400.
 
 ```
 const client = new Client({
@@ -60,7 +60,7 @@ console.log(BlogGenerator.posts.generate()); // returns an array of 10 posts
 console.log(BlogGenerator.posts.generate({ type: 'quote', limit: 1 })); // returns 1 post of type 'quote'
 ```
 
-Here is an example pulled from my project TumblrFox using the webpack loader "inject". (Pardon the use of the forbidden lodash.)
+Here is an example using the webpack loader "inject".
 
 ```
 import { Generator } from 'tumblr-faker';

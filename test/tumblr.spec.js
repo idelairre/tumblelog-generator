@@ -7,8 +7,14 @@ const jasmine = new Jasmine();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
-const tumblrClient = tumblr.createClient({ credentials, returnPromises: true });
-const fakerClient = new Client({ name: 'luksfoks', returnPromises: true });
+const tumblrClient = tumblr.createClient({
+  credentials, returnPromises: true
+});
+
+const fakerClient = new Client({
+  name: 'luksfoks',
+  returnPromises: true
+});
 
 const removeOptional = post => {
   delete post.reblog;

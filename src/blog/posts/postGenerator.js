@@ -1,6 +1,6 @@
 import { generate as generateBlogInfo } from '../info/blogInfoGenerator';
 import { generateApiPost } from '../../objects/post/postGenerator';
-import { number, populate } from '../../utils/utils';
+import { generateResponse, number, populate } from '../../utils/utils';
 
 export const generate = query => generateApiPost(query);
 

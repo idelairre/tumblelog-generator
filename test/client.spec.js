@@ -1,18 +1,13 @@
+import Jasmine from 'jasmine';
 import { Client } from '../src/index';
-import * as Helpers from './helpers';
 
-// let jasmine = jasmine || {};
-//
-// if (Helpers.isNode()) {
-//   const Jasmine = require('jasmine');
-//   jasmine = new Jasmine();
-// }
+const jasmine = new Jasmine();
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
-
-let client;
+// jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
 
 describe('Client', () => {
+
+  let client;
 
   it ('should work', () => {
     client = new Client();
@@ -25,7 +20,7 @@ describe('Client', () => {
     });
   });
 
-  it ('should return promises if "returnPromises" argument is passed to constructor', async () => {
+  it ('should return promises if "returnPromises" argument is passed to constructor', async (done) => {
     client.returnPromises = true;
 
     const request = client.blogInfo('banshee-hands');
@@ -34,6 +29,7 @@ describe('Client', () => {
     const response = await client.blogInfo('banshee-hands');
 
     expect(response.blog).toBeDefined();
+    done();
   });
 
   it ('should expect a callback if "returnPromises" is undefined or false', () => {
@@ -61,16 +57,15 @@ describe('Client', () => {
     });
   });
 
-  it ('should persist blog data if "persistData" is enabled', async () => {
+  it ('should persist blog data if "persistData" is enabled', async (done) => {
     try {
       const query = {
         limit: 10
       };
 
-      client = new Client({
-        persistData: true,
-        returnPromises: true
-      });
+      client.persistData = true;
+      client.returnErrors = false;
+      client.returnPromises = true;
 
       expect(client.persistData).toBe(true);
 
@@ -90,32 +85,31 @@ describe('Client', () => {
       expect(cache.followers.slice(0, 10)).toEqual(followers.users);
 
       const likes = await client.blogLikes('banshee-hands', query);
-      expect(cache.likes.slice(0, 10)).toEqual(likes.posts);
+      expect(cache.likes.slice(0, 10)).toEqual(likes.likes);
     } catch (err) {
       console.error(err);
     }
+    done();
   });
 
-  it ('should persist user data if "persistData" is enabled', async () => {
+  it ('should persist user data if "persistData" is enabled', async (done) => {
     const query = {
       limit: 10
     };
-
-    client = new Client({
-      user: 'camdamage',
-      persistData: true,
-      returnPromises: true
-    });
 
     const cache = client.__cache.user;
 
     expect(cache).toBeDefined();
 
-    const posts = await client.userDashboard('camdamage', query);
+    const posts = await client.userDashboard(query);
     expect(cache.posts.slice(0, 10)).toEqual(posts.posts);
+    done();
   });
 
   describe('Blog', () => {
+
+    client = new Client();
+
     describe('blogPosts', () => {
       it ('should return a response object containing blog info and an array of posts', () => {
         client.blogPosts('banshee-hands', (error, data) => {
@@ -126,18 +120,17 @@ describe('Client', () => {
         });
       });
 
-      // it ('should accept query params', () => {
-      //   const query = {
-      //     limit: 15,
-      //     type: 'quote'
-      //   };
-      //   client.blogPosts('banshee-hands', query, (error, data) => {
-      //     expect(data).toBeDefined();
-      //     expect(data.posts).toBeDefined();
-      //     expect(data.posts.length).toEqual(query.limit);
-      //     data.posts.forEach(post => expect(post.type).toMatch(/quote/));
-      //   });
-      // });
+      it ('should accept query params', () => {
+        const query = {
+          limit: 5,
+        };
+        client.blogPosts('banshee-hands', query, (error, data) => {
+          expect(data).toBeDefined();
+          expect(data.posts).toBeDefined();
+          expect(data.posts.length).toEqual(query.limit);
+          // data.posts.forEach(post => expect(post.type).toMatch(/quote/));
+        });
+      });
 
       it ('should only return posts from designated blog', () => {
         client.blogPosts('banshee-hands', (error, data) => {
@@ -175,23 +168,11 @@ describe('Client', () => {
         });
       });
     });
-
-    // describe('blogSubmissions', () => {
-    //
-    // });
-    //
-    // describe('blogDrafts', () => {
-    //
-    // });
-    //
-    // describe('blogQueue', () => {
-    //
-    // });
   });
 
   describe('User', () => {
 
-    const client = new Client({
+    client = new Client({
       user: 'luksfoks'
     });
 
@@ -203,10 +184,10 @@ describe('Client', () => {
       });
 
       // it ('should return a user object with the configured user name', () => {
-      //   client.userInfo((err, data) => {
-      //     expect(data).toBeDefined();
-      //     // expect(data.user.blogs[0].name).toMatch(/luksfoks/);
-      //   });
+        // client.userInfo((err, data) => {
+          // expect(data).toBeDefined();
+          // expect(data.user.blogs[0].blog_name).toMatch(/luksfoks/);
+        // });
       // });
     });
 
@@ -266,6 +247,4 @@ describe('Client', () => {
   });
 });
 
-// if (Helpers.isNode()) {
-//   jasmine.execute();
-// }
+jasmine.execute();

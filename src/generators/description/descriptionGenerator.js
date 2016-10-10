@@ -32,7 +32,7 @@ export const markov = (following = followingCorpus) => {
     seed += desc;
   });
   markovChain = markovChain || new MarkovChain(seed);
-  return replaceRealInfo(markovChain.start(getRandomStarter).end(terminator).process());
+  return replaceRealInfo(markovChain.start(getRandomStarter).end(terminator).process()).replace(/"/g, ' ');
 }
 
 const generate = (type = 'markov') => {

@@ -28,7 +28,15 @@ class Client {
     this.returnErrors = returnErrors;
     this.returnPromises = returnPromises;
     this.user = user;
-    if (this.persistData) {
+  }
+
+  get persistData() {
+    return this._persistData;
+  }
+
+  set persistData(val) {
+    this._persistData = val;
+    if (val) {
       this.__cache = {
         blogs: {}
       };
@@ -37,6 +45,8 @@ class Client {
         likes: 20,
         following: 10
       });
+    } else {
+      this.__cache = null;
     }
   }
 
@@ -145,7 +155,7 @@ class Client {
     if (this.persistData) {
       data = this.__cache.user.getLikes(options);
     } else {
-      data = User.likes.fetch(options)
+      data = User.likes.fetch(options);
     }
     return wrapResponse.call(this, data, callback);
   }

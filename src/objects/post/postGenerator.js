@@ -1,16 +1,18 @@
 import generateDescription from '../../generators/description/descriptionGenerator';
 import generateTitle from '../../generators/title/titleGenerator';
+import { generate as generateTumblelog } from '../tumblelog/tumblelogGenerator';
 import generateName from '../../generators/name/nameGenerator';
 import sentence from '../../generators/sentence/sentence';
+import paragraph from '../../generators/paragraph/paragraph';
 import words from '../../generators/words/words';
 import url from '../../generators/url/url';
 import * as Utils from '../../utils/utils';
 
-export const contentRating = () => {
+const contentRating = () => {
   return Utils.sample(['adult', 'nsfw']);
 };
 
-export const randomType = (api = false) => {
+const randomType = (api = false) => {
   let types = ['photo', 'photoset', 'quote', 'note', 'video', 'answer', 'link', 'chat'];
   if (api) {
     return Utils.sample(Utils.without(types.concat(['text']), 'photoset', 'note'));
@@ -18,19 +20,19 @@ export const randomType = (api = false) => {
   return Utils.sample(types);
 };
 
-export const randomFont = () => {
+const randomFont = () => {
   return Utils.sample(['Helvetica', 'Times New Roman', 'Streetscript']);
 };
 
-export const randomState = () => {
+const randomState = () => {
   return Utils.sample(['published', 'queued', 'draft', 'private']);
 };
 
-export const randomFormat = () => {
+const randomFormat = () => {
   return Utils.sample(['html', 'markdown']);
 };
 
-export const generateDialogue = (num = Utils.number({ min: 1, max: 5 })) => {
+const generateDialogue = (num = Utils.number({ min: 1, max: 5 })) => {
   const dialogue = [];
   for (let i = 0; i < num; i += 1) {
     const name = generateName();
@@ -43,7 +45,7 @@ export const generateDialogue = (num = Utils.number({ min: 1, max: 5 })) => {
   return dialogue;
 }
 
-export const generateId = () => {
+const generateId = () => {
   const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   let id = '1';
   for (let i = 0; i < 11; i += 1) {
@@ -52,11 +54,11 @@ export const generateId = () => {
   return parseInt(id);
 };
 
-export const generateAudioPlayer = () => {
+const generateAudioPlayer = () => {
   return `<embed type="application/x-shockwave-flash" src=http://assets.tumblr.com/swf/audio_player.swf?audio_file=http://tumblr.com/audio_file/${Utils.number()}/tumblr_${Utils.uuid(17)}&color=${Utils.color()}&logo=soundcloud" height="27" width="207" quality="best"></embed>`
 }
 
-export const generateVideoPlayer = () => {
+const generateVideoPlayer = () => {
   const sizes = [{ width: 250, height: 169 }, { width: 400, height: 251 }, { width: 500, height: 305 }];
   const player = [];
   sizes.forEach(size => {
@@ -69,28 +71,28 @@ export const generateVideoPlayer = () => {
   return player;
 }
 
-export const generateStaticAsset = (filetype = 'jpg') => {
+const generateStaticAsset = (filetype = 'jpg') => {
   return `https://secure.static.tumblr.com/${Utils.uuid()}/${Utils.uuid()}/${Utils.uuid()}/tumblr_static_${Utils.uuid()}.${filetype}`;
 };
 
-export const generateMediaAsset = (size, filetype = 'jpg') => {
+const generateMediaAsset = (size, filetype = 'jpg') => {
   return `http://${Utils.number({ min: 20, max: 99 })}.media.tumblr.com/tumblr_${Utils.uuid(19)}_${size}${size === 75 ? 'sq' : ''}.${filetype}`;
 };
 
-export const generatePostSlug = (title = generateTitle()) => {
+const generatePostSlug = (title = generateTitle()) => {
   return title.replace(/\W+/g, '-').toLowerCase();
 };
 
-export const generatePostUrl = (tumblelog = generateName(), id = generateId(), title = generateTitle()) => {
+const generatePostUrl = (tumblelog = generateName(), id = generateId(), title = generateTitle()) => {
   return `${Utils.tumblrUuid(tumblelog)}/post/${id}/${generatePostSlug(title)}`;
 };
 
-export const generateTinyUrl = () => {
+const generateTinyUrl = () => {
   const end = Utils.uuid(8);
   return `https://tmblr.co/${end}`;
 };
 
-export const generatePhotos = (num = Utils.number({ min: 1, max: 5 })) => {
+const generatePhotos = (num = Utils.number({ min: 1, max: 5 })) => {
   const photos = [];
   const sizes = [{ width: 1280, height: 722 }, { width: 500, height: 282 }, { width: 400, height: 225 }, { width: 250, height: 141 }, { width: 100, height: 56 }, { width: 75, height: 75 }];
   for (let i = 0; i < num; i += 1) {
@@ -109,7 +111,7 @@ export const generatePhotos = (num = Utils.number({ min: 1, max: 5 })) => {
   return photos;
 }
 
-export const generateTrail = (num = Utils.number({ min: 0, max: 2 })) => {
+const generateTrail = (num = Utils.number({ min: 0, max: 2 })) => {
   const trail = [];
   for (let i = 0; i < num; i += 1) {
     const response = {
@@ -156,7 +158,7 @@ export const generateTrail = (num = Utils.number({ min: 0, max: 2 })) => {
   return trail;
 };
 
-export const flavor = tumblelog => {
+const flavor = tumblelog => {
   const modifier = Utils.sample(['anarchy', 'slut', 'blood', 'communist', 'mermaid', 'fox', 'scorpio', 'queer', 'antifa', '69', 'trans', 'supa', 'slayin', 'words', 'poly']);
   if (Utils.boolean()) {
     return `${tumblelog}${Utils.sample('-', '_', '', '-and-') + modifier}`;
@@ -164,7 +166,10 @@ export const flavor = tumblelog => {
   return modifier + tumblelog;
 };
 
-export const generateClientPost = (tumblelog = Geneartors.name()) => {
+export const generateClientPost = ({
+  tumblelog = generateName(),
+  type = randomType()
+} = {}) => {
   const id = generateId();
   const post = {
     'accepts-answers': Utils.boolean(),
@@ -209,10 +214,11 @@ export const generateClientPost = (tumblelog = Geneartors.name()) => {
     'sponsered': '',
     'tags': words(),
     'tumblelog': tumblelog,
+    'tumblelog-data': generateTumblelog(tumblelog),
     'tumblelog-content-rating': contentRating(),
     'tumblelog-key': Utils.uuid(8),
     'tumblelog-name': tumblelog,
-    'type': randomType()
+    'type': type
   };
 
   if (Utils.boolean()) {
@@ -234,27 +240,32 @@ export const generateClientPost = (tumblelog = Geneartors.name()) => {
   return post;
 };
 
-export const generateApiPost = (query = {}) => {
+export const generateApiPost = ({
+  format = 'html',
+  title = generateTitle(),
+  name = generateName(),
+  state = randomState(),
+  type = randomType(true),
+  followed = Utils.boolean()
+} = {}) => {
   const id = generateId();
-  const title = query.title || generateTitle();
-  const name = query.blog_name || generateName();
   const post = {
     blog_name: name,
     id,
     post_url: generatePostUrl(name, id, title),
     slug: generatePostSlug(title),
-    type: query.type || randomType(true),
+    type: type,
     date: Utils.past(),
     timestamp: Utils.timestamp(),
-    state: query.state || randomState(),
-    format: query.format || 'html',
+    state: state,
+    format: format,
     reblog_key: Utils.uuid(8),
     tags: words(),
     short_url: generateTinyUrl(),
     summary: generateDescription(),
     recommended_source: null,
     recommended_color: null,
-    followed: query.followed || Utils.boolean(),
+    followed: followed,
     highlighted: [],
     liked: Utils.boolean(),
     note_count: Utils.number(),
@@ -290,7 +301,7 @@ const appendTypeAttributes = post => {
   } else if (post.type === 'text') {
     Object.assign(post, {
       title: sentence(),
-      body: paragraph()
+      body: Utils.wrap(paragraph(), 'p')
     });
   } else if (post.type === 'quote') {
     const source = generateName();
@@ -354,13 +365,20 @@ const appendTypeAttributes = post => {
       asking_name: asker,
       asking_url: Utils.tumblrUrl(asker),
       question: sentence(),
-      answer: sentence() // TODO: wrap this in tags and shit
+      answer: Utils.wrap(sentence(), 'p') // TODO: wrap this in tags and shit
     });
   }
   return post;
 }
 
-export const generateMany = query => {
+export const generate = (query, api) => {
+  if (!api) {
+    return generateClientPost(query);
+  }
+  return generateApiPost(query);
+};
+
+export const generateMany = (query, api) => {
   query = Object.assign({ limit: 10 }, query);
-  return Utils.populate(new Array(query.limit), generateApiPost.bind(this, query));
+  return Utils.populate(new Array(query.limit), generate.bind(this, query, api));
 };

@@ -33,7 +33,7 @@ export const markov = (following = followingCorpus) => {
     });
   }
   markovChain = markovChain || new MarkovChain(seed);
-  let sentence = replaceRealInfo(markovChain.start(randomStarter).end(terminator).process());
+  let sentence = replaceRealInfo(markovChain.start(randomStarter).end(terminator).process()).replace(/"/g, '');
   return checkEndWord(sentence);
 }
 

@@ -7,7 +7,7 @@ var CircularDependencyPlugin = require('circular-dependency-plugin');
 
 module.exports = {
   entry: './src/index.js',
-  devtool: 'source-map',
+  devtool: 'eval-source-map',
   output: {
     path: './lib',
     filename: outputFile,

@@ -114,7 +114,7 @@ export const uniq = (target, ...args) => {
 
 export const union = (target, ...args) => {
   const array = target.concat(...args);
-  return array.filter((item, post, arr) => {
+  return array.filter((item, pos, arr) => {
     return !pos || item !== arr[pos - 1];
   });
 };
