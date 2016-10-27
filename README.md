@@ -94,6 +94,11 @@ PostSource.fetch(query).then(response => {
 
 Now you have a fixture that generates its responses from the same pool of posts as if it were a snapshot of a real user's dashboard at a given time.
 
+# Best fake tumblogs
+
++ plusrocococoitus
++ robinflavoredjerry
+
 # Planned features
 
 Deep in tumblr-faker is a file with tools for parsing and formatting your own tumblr data. In the future I plan on exposing it and allowing users to pull from their own tumblr data.

@@ -1,4 +1,4 @@
-import blog from './blog/blog';
+import Blog from './blog/blog';
 import email from './email/email';
 import description from './description/descriptionGenerator';
 import { generateMany as followings, generate as following } from '../user/following/followingGenerator';
@@ -10,15 +10,15 @@ import words from './words/words';
 import url from './url/url';
 import * as posts from '../objects/post/postGenerator';
 import * as tumblelog from '../objects/tumblelog/tumblelogGenerator';
-import user from './user/user';
+import User from './user/user';
 
 const Generator = {
+  Blog,
+  User,
   email,
   name,
-  blog,
   following,
   followings,
-  user,
   description,
   sentence,
   paragraph,

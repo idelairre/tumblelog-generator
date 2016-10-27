@@ -40,7 +40,7 @@ class Client {
       this.__cache = {
         blogs: {}
       };
-      this.__cache.user = new Generator.user({
+      this.__cache.user = new Generator.User({
         posts: 15,
         likes: 20,
         following: 10
@@ -51,7 +51,7 @@ class Client {
   }
 
   __createBlog(name) {
-    return new Generator.blog({
+    return new Generator.Blog({
       name,
       followers: Utils.number({ min: 5, max: 40 }),
       posts: Utils.number({ min: 0, max: 40 }),

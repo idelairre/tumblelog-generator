@@ -1,5 +1,5 @@
 import Jasmine from 'jasmine';
-import { Client } from '../src/index';
+import { Client, Generator } from '../src/index';
 
 const jasmine = new Jasmine();
 
