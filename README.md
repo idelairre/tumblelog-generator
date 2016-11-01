@@ -94,10 +94,16 @@ PostSource.fetch(query).then(response => {
 
 Now you have a fixture that generates its responses from the same pool of posts as if it were a snapshot of a real user's dashboard at a given time.
 
-# Best fake tumblogs
+# Some great fake tumblogs
 
 + plusrocococoitus
 + robinflavoredjerry
++ potatoesrebelsjama
++ he_cheating
++ milliball
++ homovixen
++ vs-us
++ ultrafucking
 
 # Planned features
 

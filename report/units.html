@@ -9,234 +9,14 @@
     <h1>Unit Tests</h1>
     <section>
       <header class="overview">
-        <div class="browser">Browser: Firefox 49.0.0 (Ubuntu 0.0.0)</div>
-        <div class="timestamp">Timestamp: 10/31/2016, 9:03:07 PM</div>
-        <p class="results">
-          23 tests / 
-          0 errors / 
-          0 failures / 
-          0 skipped / 
-          runtime: 0.855s
-        </p>
-      </header>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Client</p>
-            <em class="spec__descrip">should work</em>
-          </div>
-          <div class="spec__status">Passed in 0.075s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Client</p>
-            <em class="spec__descrip">should return response as a callback by default</em>
-          </div>
-          <div class="spec__status">Passed in 0.094s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Client</p>
-            <em class="spec__descrip">should return promises if "returnPromises" argument is passed to constructor</em>
-          </div>
-          <div class="spec__status">Passed in 0.01s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Client</p>
-            <em class="spec__descrip">should expect a callback if "returnPromises" is undefined or false</em>
-          </div>
-          <div class="spec__status">Passed in 0.005s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Client</p>
-            <em class="spec__descrip">should throw an error if "returnErrors" is enabled</em>
-          </div>
-          <div class="spec__status">Passed in 0.004s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Client</p>
-            <em class="spec__descrip">should throw a specific error if designated</em>
-          </div>
-          <div class="spec__status">Passed in 0.004s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Client</p>
-            <em class="spec__descrip">should persist blog data if "persistData" is enabled</em>
-          </div>
-          <div class="spec__status">Passed in 0.41s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Client</p>
-            <em class="spec__descrip">should persist user data if "persistData" is enabled</em>
-          </div>
-          <div class="spec__status">Passed in 0.001s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Blog &raquo; blogPosts</p>
-            <em class="spec__descrip">should return a response object containing blog info and an array of posts</em>
-          </div>
-          <div class="spec__status">Passed in 0s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Blog &raquo; blogPosts</p>
-            <em class="spec__descrip">should accept query params</em>
-          </div>
-          <div class="spec__status">Passed in 0.001s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Blog &raquo; blogPosts</p>
-            <em class="spec__descrip">should only return posts from designated blog</em>
-          </div>
-          <div class="spec__status">Passed in 0.001s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Blog &raquo; blogLikes</p>
-            <em class="spec__descrip">should only return "liked" posts from the designated blog</em>
-          </div>
-          <div class="spec__status">Passed in 0.119s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Blog &raquo; blogFollowers</p>
-            <em class="spec__descrip">should return an array of followers</em>
-          </div>
-          <div class="spec__status">Passed in 0s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Blog &raquo; blogFollowers</p>
-            <em class="spec__descrip">should accept parameters</em>
-          </div>
-          <div class="spec__status">Passed in 0.001s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">User &raquo; userInfo</p>
-            <em class="spec__descrip">should work</em>
-          </div>
-          <div class="spec__status">Passed in 0.013s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">User &raquo; userDashboard</p>
-            <em class="spec__descrip">should return an array of posts</em>
-          </div>
-          <div class="spec__status">Passed in 0s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">User &raquo; userDashboard</p>
-            <em class="spec__descrip">should accept options</em>
-          </div>
-          <div class="spec__status">Passed in 0s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">User &raquo; userLikes</p>
-            <em class="spec__descrip">should return an array of liked posts</em>
-          </div>
-          <div class="spec__status">Passed in 0.001s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">User &raquo; userLikes</p>
-            <em class="spec__descrip">should accept options</em>
-          </div>
-          <div class="spec__status">Passed in 0s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">User &raquo; userFollowing</p>
-            <em class="spec__descrip">should return an array of users</em>
-          </div>
-          <div class="spec__status">Passed in 0.001s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">User &raquo; userFollowing</p>
-            <em class="spec__descrip">should accept options</em>
-          </div>
-          <div class="spec__status">Passed in 0s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">posts &raquo; genearteApiPost</p>
-            <em class="spec__descrip">should work</em>
-          </div>
-          <div class="spec__status">Passed in 0.061s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">posts &raquo; genearteApiPost</p>
-            <em class="spec__descrip">should only generate posts of the specified type if type param is passed</em>
-          </div>
-          <div class="spec__status">Passed in 0.054s</div>
-        </h3>
-      </div>
-    </section>
-    <section>
-      <header class="overview">
         <div class="browser">Browser: Chrome 54.0.2840 (Linux 0.0.0)</div>
-        <div class="timestamp">Timestamp: 10/31/2016, 9:03:07 PM</div>
+        <div class="timestamp">Timestamp: 11/1/2016, 1:42:21 AM</div>
         <p class="results">
           23 tests / 
           0 errors / 
           0 failures / 
           0 skipped / 
-          runtime: 1.145s
+          runtime: 0.838s
         </p>
       </header>
       <div class="spec spec--pass" style="">
@@ -254,7 +34,7 @@
             <p class="spec__suite">Client</p>
             <em class="spec__descrip">should return response as a callback by default</em>
           </div>
-          <div class="spec__status">Passed in 0.116s</div>
+          <div class="spec__status">Passed in 0.135s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -263,7 +43,7 @@
             <p class="spec__suite">Client</p>
             <em class="spec__descrip">should return promises if "returnPromises" argument is passed to constructor</em>
           </div>
-          <div class="spec__status">Passed in 0.016s</div>
+          <div class="spec__status">Passed in 0.022s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -272,7 +52,7 @@
             <p class="spec__suite">Client</p>
             <em class="spec__descrip">should expect a callback if "returnPromises" is undefined or false</em>
           </div>
-          <div class="spec__status">Passed in 0.008s</div>
+          <div class="spec__status">Passed in 0.01s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -280,15 +60,6 @@
           <div class="spec__title">
             <p class="spec__suite">Client</p>
             <em class="spec__descrip">should throw an error if "returnErrors" is enabled</em>
-          </div>
-          <div class="spec__status">Passed in 0.013s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Client</p>
-            <em class="spec__descrip">should throw a specific error if designated</em>
           </div>
           <div class="spec__status">Passed in 0.007s</div>
         </h3>
@@ -297,9 +68,18 @@
         <h3 class="spec__header">
           <div class="spec__title">
             <p class="spec__suite">Client</p>
+            <em class="spec__descrip">should throw a specific error if designated</em>
+          </div>
+          <div class="spec__status">Passed in 0.006s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">Client</p>
             <em class="spec__descrip">should persist blog data if "persistData" is enabled</em>
           </div>
-          <div class="spec__status">Passed in 0.67s</div>
+          <div class="spec__status">Passed in 0.424s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -326,7 +106,7 @@
             <p class="spec__suite">Blog &raquo; blogPosts</p>
             <em class="spec__descrip">should accept query params</em>
           </div>
-          <div class="spec__status">Passed in 0s</div>
+          <div class="spec__status">Passed in 0.001s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -344,7 +124,7 @@
             <p class="spec__suite">Blog &raquo; blogLikes</p>
             <em class="spec__descrip">should only return "liked" posts from the designated blog</em>
           </div>
-          <div class="spec__status">Passed in 0.172s</div>
+          <div class="spec__status">Passed in 0.083s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -362,7 +142,7 @@
             <p class="spec__suite">Blog &raquo; blogFollowers</p>
             <em class="spec__descrip">should accept parameters</em>
           </div>
-          <div class="spec__status">Passed in 0s</div>
+          <div class="spec__status">Passed in 0.001s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -371,7 +151,7 @@
             <p class="spec__suite">User &raquo; userInfo</p>
             <em class="spec__descrip">should work</em>
           </div>
-          <div class="spec__status">Passed in 0.008s</div>
+          <div class="spec__status">Passed in 0.004s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -389,7 +169,7 @@
             <p class="spec__suite">User &raquo; userDashboard</p>
             <em class="spec__descrip">should accept options</em>
           </div>
-          <div class="spec__status">Passed in 0s</div>
+          <div class="spec__status">Passed in 0.001s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -398,7 +178,7 @@
             <p class="spec__suite">User &raquo; userLikes</p>
             <em class="spec__descrip">should return an array of liked posts</em>
           </div>
-          <div class="spec__status">Passed in 0.001s</div>
+          <div class="spec__status">Passed in 0s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -433,46 +213,6 @@
           <div class="spec__title">
             <p class="spec__suite">posts &raquo; genearteApiPost</p>
             <em class="spec__descrip">should work</em>
-          </div>
-          <div class="spec__status">Passed in 0.061s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">posts &raquo; genearteApiPost</p>
-            <em class="spec__descrip">should only generate posts of the specified type if type param is passed</em>
-          </div>
-          <div class="spec__status">Passed in 0.071s</div>
-        </h3>
-      </div>
-    </section>
-    <section>
-      <header class="overview">
-        <div class="browser">Browser: PhantomJS 2.1.1 (Linux 0.0.0)</div>
-        <div class="timestamp">Timestamp: 10/31/2016, 9:03:10 PM</div>
-        <p class="results">
-          23 tests / 
-          0 errors / 
-          0 failures / 
-          0 skipped / 
-          runtime: 3.932s
-        </p>
-      </header>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Client</p>
-            <em class="spec__descrip">should work</em>
-          </div>
-          <div class="spec__status">Passed in 0s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Client</p>
-            <em class="spec__descrip">should return response as a callback by default</em>
           </div>
           <div class="spec__status">Passed in 0.075s</div>
         </h3>
@@ -480,192 +220,25 @@
       <div class="spec spec--pass" style="">
         <h3 class="spec__header">
           <div class="spec__title">
-            <p class="spec__suite">Client</p>
-            <em class="spec__descrip">should return promises if "returnPromises" argument is passed to constructor</em>
-          </div>
-          <div class="spec__status">Passed in 0.049s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Client</p>
-            <em class="spec__descrip">should expect a callback if "returnPromises" is undefined or false</em>
-          </div>
-          <div class="spec__status">Passed in 0.034s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Client</p>
-            <em class="spec__descrip">should throw an error if "returnErrors" is enabled</em>
-          </div>
-          <div class="spec__status">Passed in 0.035s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Client</p>
-            <em class="spec__descrip">should throw a specific error if designated</em>
-          </div>
-          <div class="spec__status">Passed in 0.036s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Client</p>
-            <em class="spec__descrip">should persist blog data if "persistData" is enabled</em>
-          </div>
-          <div class="spec__status">Passed in 1.967s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Client</p>
-            <em class="spec__descrip">should persist user data if "persistData" is enabled</em>
-          </div>
-          <div class="spec__status">Passed in 0s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Blog &raquo; blogPosts</p>
-            <em class="spec__descrip">should return a response object containing blog info and an array of posts</em>
-          </div>
-          <div class="spec__status">Passed in 0s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Blog &raquo; blogPosts</p>
-            <em class="spec__descrip">should accept query params</em>
-          </div>
-          <div class="spec__status">Passed in 0s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Blog &raquo; blogPosts</p>
-            <em class="spec__descrip">should only return posts from designated blog</em>
-          </div>
-          <div class="spec__status">Passed in 0.001s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Blog &raquo; blogLikes</p>
-            <em class="spec__descrip">should only return "liked" posts from the designated blog</em>
-          </div>
-          <div class="spec__status">Passed in 1.065s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Blog &raquo; blogFollowers</p>
-            <em class="spec__descrip">should return an array of followers</em>
-          </div>
-          <div class="spec__status">Passed in 0s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">Blog &raquo; blogFollowers</p>
-            <em class="spec__descrip">should accept parameters</em>
-          </div>
-          <div class="spec__status">Passed in 0s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">User &raquo; userInfo</p>
-            <em class="spec__descrip">should work</em>
-          </div>
-          <div class="spec__status">Passed in 0.022s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">User &raquo; userDashboard</p>
-            <em class="spec__descrip">should return an array of posts</em>
-          </div>
-          <div class="spec__status">Passed in 0.009s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">User &raquo; userDashboard</p>
-            <em class="spec__descrip">should accept options</em>
-          </div>
-          <div class="spec__status">Passed in 0.001s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">User &raquo; userLikes</p>
-            <em class="spec__descrip">should return an array of liked posts</em>
-          </div>
-          <div class="spec__status">Passed in 0s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">User &raquo; userLikes</p>
-            <em class="spec__descrip">should accept options</em>
-          </div>
-          <div class="spec__status">Passed in 0s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">User &raquo; userFollowing</p>
-            <em class="spec__descrip">should return an array of users</em>
-          </div>
-          <div class="spec__status">Passed in 0s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">User &raquo; userFollowing</p>
-            <em class="spec__descrip">should accept options</em>
-          </div>
-          <div class="spec__status">Passed in 0s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
-            <p class="spec__suite">posts &raquo; genearteApiPost</p>
-            <em class="spec__descrip">should work</em>
-          </div>
-          <div class="spec__status">Passed in 0.314s</div>
-        </h3>
-      </div>
-      <div class="spec spec--pass" style="">
-        <h3 class="spec__header">
-          <div class="spec__title">
             <p class="spec__suite">posts &raquo; genearteApiPost</p>
             <em class="spec__descrip">should only generate posts of the specified type if type param is passed</em>
           </div>
-          <div class="spec__status">Passed in 0.324s</div>
+          <div class="spec__status">Passed in 0.067s</div>
         </h3>
       </div>
+      <div class="system-out"><strong>System output:</strong><br />Chrome 54.0.2840 (Linux 0.0.0) LOG: 'aquarius-aquarius'
+<br />Chrome 54.0.2840 (Linux 0.0.0) LOG: 'castdaddytranslucent'
+<br />Chrome 54.0.2840 (Linux 0.0.0) LOG: 'vegro_ismael'
+<br />Chrome 54.0.2840 (Linux 0.0.0) LOG: 'sur-@-yours'
+<br />Chrome 54.0.2840 (Linux 0.0.0) LOG: 'nanting'
+<br />Chrome 54.0.2840 (Linux 0.0.0) LOG: 'reposts-and-hilly'
+<br />Chrome 54.0.2840 (Linux 0.0.0) LOG: 'colors-colors'
+<br />Chrome 54.0.2840 (Linux 0.0.0) LOG: 'black_lilies'
+<br />Chrome 54.0.2840 (Linux 0.0.0) LOG: 'demo-hana'
+<br />Chrome 54.0.2840 (Linux 0.0.0) LOG: 'emmarosy'
+<br />Chrome 54.0.2840 (Linux 0.0.0) LOG: 'outforkingonfleek'
+<br />Chrome 54.0.2840 (Linux 0.0.0) LOG: 'onfleek_canvassing'
+</div>
     </section>
   </body>
 </html>

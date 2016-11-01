@@ -6,7 +6,7 @@ import generateName from '../name/nameGenerator';
 import { generateResponse } from '../../utils/utils';
 
 export default class Blog {
-  constructor({ name = generateName(), followers = 25, posts = 40, likes = 50 } = {}) {
+  constructor({ name = generateName(), followers = 20, posts = 20, likes = 20 } = {}) {
     this.posts = generatePosts({
       limit: posts,
       name
@@ -36,7 +36,7 @@ export default class Blog {
   }
 
   getLikes(query) {
-    query = Object.assign({ limit: 10, offset: 0}, query);
+    query = Object.assign({ limit: 10, offset: 0 }, query);
     const likes = query.type ? this.likes.every(post => {
       return post.type === query.type;
     }) || [] : this.likes;

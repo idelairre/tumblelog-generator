@@ -9,7 +9,7 @@ module.exports = {
   singleRun: true,
   colors: true,
   frameworks: ['jasmine'],
-  browsers: ['Chrome', 'Firefox', 'PhantomJS'],
+  browsers: ['Chrome'],
   plugins: [
     'karma-htmlfile-reporter',
     'karma-jasmine',
@@ -28,7 +28,7 @@ module.exports = {
     './test/**/*.js': ['webpack', 'sourcemap']
   },
   webpack: {
-    devtool: 'inline-source-map',
+    devtool: 'eval',
     plugins: [
       new CircularDependencyPlugin({
         exclude: /node_modules/,
