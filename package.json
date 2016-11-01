@@ -66,6 +66,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.11.6",
+    "detect-node": "^2.0.3",
     "markovchain": "^1.0.2",
     "pos": "^0.3.0"
   },

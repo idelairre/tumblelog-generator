@@ -8,7 +8,7 @@ import paragraph from './paragraph/paragraph';
 import title from './title/titleGenerator';
 import words from './words/words';
 import url from './url/url';
-import * as posts from '../objects/post/postGenerator';
+import posts from '../objects/post/postGenerator';
 import * as tumblelog from '../objects/tumblelog/tumblelogGenerator';
 import User from './user/user';
 

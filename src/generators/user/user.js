@@ -1,9 +1,11 @@
+import generateName from '../name/nameGenerator';
 import { generateMany as generatePosts } from '../../objects/post/postGenerator';
 import { generateMany as generateFollowing } from '../../user/following/followingGenerator';
 import { generateResponse } from '../../utils/utils';
 
 export default class User {
-  constructor({ posts = 50, likes = 25, following = 25 } = {}) {
+  constructor({ user, posts = 50, likes = 25, following = 25 } = {}) {
+    this.user = user;
     this.posts = generatePosts({
       limit: posts
     });

@@ -9,18 +9,29 @@ module.exports = {
   singleRun: true,
   colors: true,
   frameworks: ['jasmine'],
-  browsers: ['Firefox'],
-  plugins: ['karma-htmlfile-reporter', 'karma-jasmine', 'karma-chrome-launcher', 'karma-firefox-launcher', 'karma-phantomjs-launcher', 'karma-sourcemap-loader', 'karma-webpack'],
-  files: ['node_modules/babel-polyfill/dist/polyfill.js', './test/index.spec.js'],
-  exclude: ['./test/**/tumblr.spec.js'],
+  browsers: ['Chrome', 'Firefox', 'PhantomJS'],
+  plugins: [
+    'karma-htmlfile-reporter',
+    'karma-jasmine',
+    'karma-chrome-launcher',
+    'karma-firefox-launcher',
+    'karma-phantomjs-launcher',
+    'karma-sourcemap-loader',
+    'karma-webpack'
+  ],
+  files: [
+    'node_modules/babel-polyfill/dist/polyfill.js',
+    './test/index.js'
+  ],
+  exclude: ['./test/tumblr.spec.js'],
   preprocessors: {
-    './test/index.spec.js': ['webpack', 'sourcemap']
+    './test/**/*.js': ['webpack', 'sourcemap']
   },
   webpack: {
-    target: 'node',
     devtool: 'inline-source-map',
     plugins: [
       new CircularDependencyPlugin({
+        exclude: /node_modules/,
         failOnError: true
       })
     ],
@@ -44,7 +55,8 @@ module.exports = {
       root: path.resolve('node_modules')
     },
     node: {
-      fs: 'empty'
+      fs: 'empty',
+      path: 'empty'
     }
   },
   webpackMiddleware: {

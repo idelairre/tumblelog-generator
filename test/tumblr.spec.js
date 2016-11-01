@@ -3,8 +3,6 @@ import Jasmine from 'jasmine';
 import { Client } from '../src/index';
 import credentials from './tokens.json';
 
-const jasmine = new Jasmine();
-
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
 const tumblrClient = tumblr.createClient({
@@ -153,4 +151,6 @@ describe('Client', () => {
   });
 });
 
-jasmine.execute();
+if (Utils.isNode()) {
+  jasmine.execute();
+}

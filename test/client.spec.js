@@ -1,14 +1,16 @@
-import Jasmine from 'jasmine';
+import isNode from 'detect-node';
 import { Client, Generator } from '../src/index';
 
-const jasmine = new Jasmine();
+let jasmine = jasmine || {};
 
-// jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
+if (isNode) {
+  const Jasmine = require('jasmine');
+  jasmine = new Jasmine();
+}
+
+let client;
 
 describe('Client', () => {
-
-  let client;
-
   it ('should work', () => {
     client = new Client();
     expect(client).toBeDefined();
@@ -20,7 +22,7 @@ describe('Client', () => {
     });
   });
 
-  it ('should return promises if "returnPromises" argument is passed to constructor', async (done) => {
+  it ('should return promises if "returnPromises" argument is passed to constructor', async done => {
     client.returnPromises = true;
 
     const request = client.blogInfo('banshee-hands');
@@ -247,4 +249,6 @@ describe('Client', () => {
   });
 });
 
-jasmine.execute();
+if (isNode) {
+  jasmine.execute();
+}

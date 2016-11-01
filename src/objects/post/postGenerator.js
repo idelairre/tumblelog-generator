@@ -382,3 +382,5 @@ export const generateMany = (query, api) => {
   query = Object.assign({ limit: 10 }, query);
   return Utils.populate(new Array(query.limit), generate.bind(this, query, api));
 };
+
+export default generateMany;

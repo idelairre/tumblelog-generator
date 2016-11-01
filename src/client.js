@@ -23,7 +23,7 @@ function wrapResponse(data, callback) {
 // TODO: add persistData option, refactor user and blog endpoints to pull from pool of posts generated on creation
 
 class Client {
-  constructor({ persistData = false, returnPromises = false, user = false, returnErrors = false } = {}) {
+  constructor({ persistData = false, returnPromises = false, user = Generator.name(), returnErrors = false } = {}) {
     this.persistData = persistData;
     this.returnErrors = returnErrors;
     this.returnPromises = returnPromises;
@@ -38,24 +38,28 @@ class Client {
     this._persistData = val;
     if (val) {
       this.__cache = {
-        blogs: {}
+        blogs: {},
+        user: new Generator.User({
+          user: this.user,
+          posts: 15,
+          likes: 20,
+          following: 10
+        })
       };
-      this.__cache.user = new Generator.User({
-        posts: 15,
-        likes: 20,
-        following: 10
-      });
     } else {
-      this.__cache = null;
+      this.__cache = {
+        blogs: {},
+        user: {}
+      };
     }
   }
 
   __createBlog(name) {
     return new Generator.Blog({
       name,
-      followers: Utils.number({ min: 5, max: 40 }),
-      posts: Utils.number({ min: 0, max: 40 }),
-      likes: Utils.number({ min: 0, max: 50 })
+      followers: Utils.number({ min: 5, max: 15 }),
+      posts: Utils.number({ min: 0, max: 20 }),
+      likes: Utils.number({ min: 0, max: 20 })
     });
   }
 
